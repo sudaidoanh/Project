@@ -10,7 +10,10 @@ namespace Project.Data.Entities
     {
         public int Id { get; set; }
         public String? Name { get; set;}
-        public int Code { get; set;}
+        public int? Code { get; set;}
+
+        public List<AreaDistributor> AreaDistributors { get; set; }
+        public List<AreaUser> AreaUsers { get; set; }
 
     }
 }

@@ -19,6 +19,8 @@ namespace Project.Data.Entities
         public DateTime FromDate { get; set; }
         public DateTime EndDate { get; set; }
         public int? DistributorId { get; set; }
+        public List<Task> Tasks { get; set; }
+        public List<Invite> Invites { get; set; }
 
     }
 }

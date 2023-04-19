@@ -15,5 +15,7 @@ namespace Project.Data.Entities
         public String Email { get; set; }
         public String Phone { get; set; }
 
+        public List<AreaDistributor> AreaDistributors { get; set; }
+
     }
 }

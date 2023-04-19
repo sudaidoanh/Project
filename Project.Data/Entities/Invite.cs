@@ -14,6 +14,6 @@ namespace Project.Data.Entities
         public int? Inviter { get; set; }
         public int? Invited { get; set; }
         public Status Status { get; set; }
-
+        public Plan Plan { get; set; }
     }
 }

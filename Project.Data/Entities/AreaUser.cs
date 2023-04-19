@@ -8,8 +8,9 @@ namespace Project.Data.Entities
 {
     public class AreaUser
     {
-        public int? AreaId { get; set; }
-        public int? UserId { get; set; }
+        public int AreaId { get; set; }
+        public Area Area { get; set; }
+        public int UserId { get; set; }
 
     }
 }

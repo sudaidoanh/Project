@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Project.Data.Entities
 {
-    public class Configuation
+    public class Configuration
     {
         public int Key { get; set; }
         public int Value { get; set; }
