@@ -1,0 +1,26 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Project.Data.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Project.Data.Configurations
+{
+    internal class InviteConfiguration : IEntityTypeConfiguration<Invite>
+    {
+        public void Configure(EntityTypeBuilder<Invite> builder)
+        {
+            builder.ToTable("Invites");
+            builder.HasKey(x => new { x.Id, x.PlanId });
+            builder.Property(x => x.Id).UseIdentityColumn();
+
+            builder.Property(x => x.Status).IsRequired();
+            builder.HasOne(x => x.Plan).WithMany(c => c.Invites).HasForeignKey(x => x.PlanId);
+
+
+        }
+    }
+}
