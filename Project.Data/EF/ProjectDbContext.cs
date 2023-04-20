@@ -24,7 +24,7 @@ namespace Project.Data.EF
             modelBuilder.ApplyConfiguration(new TaskConfiguration());
             modelBuilder.ApplyConfiguration(new TaskDetailConfiguration());
 
-            base.OnModelCreating(modelBuilder);
+            //base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<Distributor> Distributors { get; set; }
