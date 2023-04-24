@@ -16,6 +16,7 @@ namespace Project.Data.Entities
         public String Phone { get; set; }
 
         public List<AreaDistributor> AreaDistributors { get; set; }
+        public List<Plan> Plans{ get; set; }
 
     }
 }

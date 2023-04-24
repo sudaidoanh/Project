@@ -10,7 +10,8 @@ namespace Project.Data.Entities
     {
         public int AreaId { get; set; }
         public Area Area { get; set; }
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
+        public AppUser AppUser { get; set; }
 
     }
 }

@@ -11,12 +11,14 @@ namespace Project.Data.Entities
     {
         public int Id { get; set; }
         public int PlanId { get; set; }
-        public int UserAskTaskId { get; set; }
+        public Guid UserAskTaskId { get; set; }
         public String Title { get; set; }
         public String Content { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime Deadline { get; set; }
-        public Plan Plan { get; set; }
+        public List<TaskDetail> TaskDetails { get; set; }
+        public List<MediaTask> MediaTasks { get; set; }
+        public AppUser AppUser { get; set; }
 
     }
 }

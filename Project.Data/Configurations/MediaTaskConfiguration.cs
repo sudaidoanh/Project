@@ -14,7 +14,7 @@ namespace Project.Data.Configurations
         public void Configure(EntityTypeBuilder<MediaTask> builder)
         {
             builder.ToTable("MediaTasks");
-            builder.HasKey(x => x.Id);
+            builder.HasKey(x => new { x.Id, x.TaskId });
             builder.Property(x => x.Id).UseIdentityColumn();
 
             builder.Property(x => x.MediaType).IsRequired();
