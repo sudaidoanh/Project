@@ -6,4 +6,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Project.Data\Project.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="System\Users\" />
+  </ItemGroup>
+
 </Project>
