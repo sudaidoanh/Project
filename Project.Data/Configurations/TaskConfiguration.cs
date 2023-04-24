@@ -14,12 +14,12 @@ namespace Project.Data.Configurations
         public void Configure(EntityTypeBuilder<Entities.Task> builder)
         {
             builder.ToTable("Tasks");
-            builder.HasKey(x => new { x.Id, x.PlanId });
+            builder.HasKey(x => new { x.Id, x.UserAskTaskId });
             builder.Property(x => x.Id).UseIdentityColumn();
 
             builder.Property(x => x.Title).IsRequired().HasMaxLength(50);
             builder.Property(x => x.Content).IsRequired().HasMaxLength(300);
-            builder.HasOne(x => x.Plan).WithMany(c => c.Tasks).HasForeignKey(x => x.PlanId);
+            builder.HasOne(x => x.AppUser).WithMany(c => c.Tasks).HasForeignKey(x => x.UserAskTaskId);
         }
     }
 }

@@ -14,11 +14,13 @@ namespace Project.Data.Configurations
         public void Configure(EntityTypeBuilder<TaskDetail> builder)
         {
             builder.ToTable("TaskDetails");
-            builder.HasKey(x => x.Id);
+            builder.HasKey(x => new { x.Id, x.UserComment});
             builder.Property(x => x.Id).UseIdentityColumn();
 
             builder.Property(x => x.Status).IsRequired();
             builder.Property(x => x.Rating).IsRequired();
+            builder.HasOne(x => x.AppUser).WithMany(c => c.TaskDetails).HasForeignKey(c => c.UserComment);
+            //builder.HasOne(x => x.Task).WithMany(c => c.TaskDetails).HasForeignKey(c => c.IdTask);
         }
     }
 }

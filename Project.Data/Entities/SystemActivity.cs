@@ -12,8 +12,9 @@ namespace Project.Data.Entities
         public String ActionName { get; set; }
         public DateTime ActionDate { get; set; }
         public String ClientIP { get; set; }
-        public int? UserId { get; set; }
-        public int? DeviceId { get; set; }
+        public Guid UserId { get; set; }
+        public string Device { get; set; }
+        public AppUser AppUser { get; set; }
 
     }
 }

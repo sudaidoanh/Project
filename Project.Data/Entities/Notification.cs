@@ -11,12 +11,13 @@ namespace Project.Data.Entities
     public class Notification
     {
         public int Id { get; set; }
-        public int? SenderId { get; set; }
-        public int? Receivers { get; set; }
+        public Guid SenderId { get; set; }
+        public Guid Receivers { get; set; }
         public String Header { get; set; }
         public String Content { get; set; }
         public DateTime Date { get; set; }
         public Status Status { get; set; }
+        public AppUser AppUser { get; set; }
 
     }
 }

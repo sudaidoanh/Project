@@ -14,9 +14,10 @@ namespace Project.Data.Configurations
         public void Configure(EntityTypeBuilder<AreaUser> builder)
         {
             builder.ToTable("AreaUsers");
-            builder.HasKey(x => new { x.AreaId });
+            builder.HasKey(x => new { x.AreaId, x.UserId });
 
             builder.HasOne(x => x.Area).WithMany(c => c.AreaUsers).HasForeignKey(c => c.AreaId);
+            builder.HasOne(x => x.AppUser).WithMany(c => c.AreaUser).HasForeignKey(c => c.UserId);
         }
     }
 }

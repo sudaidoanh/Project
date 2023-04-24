@@ -15,6 +15,8 @@ namespace Project.Data.Entities
         public String Description { get; set; }
         public int Rating { get; set; }
         public String Comment { get; set; }
+        public Guid UserComment { get; set; }
+        public AppUser AppUser { get; set; }
 
     }
 }

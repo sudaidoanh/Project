@@ -11,7 +11,7 @@ namespace Project.Data.Entities
     public class Post
     {
         public int Id { get; set; }
-        public int? UserId { get; set; }
+        public Guid UserId { get; set; }
         public DateTime CreatedDate { get; set; }
         public String Image { get; set; }
         public String Title { get; set; }
@@ -19,6 +19,7 @@ namespace Project.Data.Entities
         public String Header { get; set; }
         public String Content { get; set; }
         public Status Display { get; set; }
+        public AppUser AppUser { get; set; }
 
     }
 }

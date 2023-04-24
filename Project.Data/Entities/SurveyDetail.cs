@@ -12,6 +12,6 @@ namespace Project.Data.Entities
         public int? SurveyId { get; set; }
         public String Question { get; set; }
         public String Answers { get; set; }
-
+        public Survey Survey { get; set; }
     }
 }
