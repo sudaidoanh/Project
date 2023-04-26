@@ -10,6 +10,7 @@
 - Microsoft.Extensions.Configuration.FileExtensions
 - Microsoft.Extensions.Configuration.Json
 - Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.16
+- Microsoft.AspNetCore.Http.Features" Version="5.0.17
 
 ## 17/4 - 20/4 :
 - Design ER Database
