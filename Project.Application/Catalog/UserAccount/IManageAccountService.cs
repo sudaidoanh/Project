@@ -1,5 +1,5 @@
-﻿using Project.Application.Catalog.UserAccount.Dtos;
-using Project.Application.Dtos;
+﻿using Project.ViewModels.Catalog.UserAccount;
+using Project.ViewModels.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,15 +10,9 @@ namespace Project.Application.Catalog.UserAccount
 {
     public interface IManageAccountService
     {
-        Task<int> View(ViewProfileRequest request);
-
-        Task<int> Update(EditProfileRequest request);
-
-        Task<int> UpdatePassword(EditPasswordRequest request);
-
         Task<int> Create(UserCreateRequest request);
-
+        Task<int> Delete(Guid UserId);
+        Task<ResultModel<UserViewModel>> GetAllAccount(GetUserPagingRequest request);
         Task<List<UserViewModel>> GetAll();
-        Task<PageViewModel<UserViewModel>> GetAllAccount(string keyword, int pageIndex, int pageSize);
     }
 }

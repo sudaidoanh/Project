@@ -33,13 +33,15 @@ namespace Project.Data.EF
             modelBuilder.ApplyConfiguration(new SurveyDetailConfiguration());
             modelBuilder.ApplyConfiguration(new SurveyedConfiguration());
             modelBuilder.ApplyConfiguration(new SystemActivityConfiguration());
+            modelBuilder.ApplyConfiguration(new UserImageConfiguration());
 
+            modelBuilder.ApplyConfiguration(new AppUserRoleConfiguration());
             modelBuilder.ApplyConfiguration(new AppUserConfiguration());
             modelBuilder.ApplyConfiguration(new AppRoleConfiguration());
 
             modelBuilder.Entity<Microsoft.AspNetCore.Identity.IdentityUserClaim<Guid>>().ToTable("AppUserClaims");
-            modelBuilder.Entity<Microsoft.AspNetCore.Identity.IdentityUserRole<Guid>>().ToTable("AppUserRoles").HasKey(x => new {x.UserId, x.RoleId});
             modelBuilder.Entity<Microsoft.AspNetCore.Identity.IdentityUserLogin<Guid>>().ToTable("AppUserLogins").HasKey(x => x.UserId);
+            modelBuilder.Entity<Microsoft.AspNetCore.Identity.IdentityUserRole<Guid>>().ToTable("UserRoles").HasKey(x => new { x.UserId, x.RoleId});
             modelBuilder.Entity<Microsoft.AspNetCore.Identity.IdentityRoleClaim<Guid>>().ToTable("AppRoleClaims");
             modelBuilder.Entity<Microsoft.AspNetCore.Identity.IdentityUserToken<Guid>>().ToTable("AppUserTokens").HasKey(x => x.UserId);
 
@@ -50,7 +52,9 @@ namespace Project.Data.EF
 
         public DbSet<AppRole> AppRoles { get; set; }
         public DbSet<AppUser> AppUsers { get; set; }
+        public DbSet<AppUserRole> UserRoles { get; set; }
         public DbSet<Distributor> Distributors { get; set; }
+        public DbSet<UserImage> UserImages { get; set; }
         public DbSet<Area> Areas { get; set; }
         public DbSet<Configuration> Configurations { get; set; }
         public DbSet<AreaDistributor> AreaDistributors { get; set; }

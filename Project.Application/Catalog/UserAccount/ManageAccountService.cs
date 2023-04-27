@@ -1,10 +1,17 @@
-﻿using Project.Application.Catalog.UserAccount.Dtos;
-using Project.Application.Dtos;
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+/*using Project.Application.Common;*/
 using Project.Data.EF;
 using Project.Data.Entities;
+using Project.Uttilities.Exceptions;
+using Project.ViewModels.Catalog.UserAccount;
+using Project.ViewModels.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,43 +20,114 @@ namespace Project.Application.Catalog.UserAccount
     public class ManageAccountService : IManageAccountService
     {
         private readonly ProjectDbContext _context;
-        public ManageAccountService(ProjectDbContext context) 
-        { 
+       /* private readonly IStorageService _storageService;*/
+        public ManageAccountService(ProjectDbContext context/*, IStorageService storageService*/)
+        {
             _context = context;
+            /*_storageService = storageService;*/
         }
         public async Task<int> Create(UserCreateRequest request)
         {
+            var hasher = new PasswordHasher<AppUser>();
             var account = new AppUser()
             {
-
+                FullName = request.FullName,
+                Email = request.Email,
+                Address = request.Address,
+                UserName = request.UserName,
+                PhoneNumber = request.Phone,
+                PasswordHash = hasher.HashPassword(null, request.Password),
+                AppUserRoles = new List<AppUserRole>(){ new AppUserRole()
+                {
+                    RoleId = request.RoleId,
+                } },
+                AreaUser = new List<AreaUser> { new AreaUser()
+                {
+                    AreaId = request.AreaId,
+                } }
             };
             _context.AppUsers.Add(account);
             return await _context.SaveChangesAsync();
         }
 
-        Task<List<UserViewModel>> IManageAccountService.GetAll()
+        public async Task<int> Delete(Guid UserId)
         {
-            throw new NotImplementedException();
+            var account = await _context.AppUsers.FindAsync(UserId);
+            if (account == null) throw new CustomException($"Can not find user account {UserId}");
+            var images =  _context.UserImages.Where(x => x.UserId == UserId);
+            foreach(var image in images)
+            {
+                /*await _storageService.DeleteFileAsync(image.ImagePath);*/
+                _context.UserImages.Remove(image);
+            }
+            
+            _context.AppUsers.Remove(account);
+            return await _context.SaveChangesAsync();
         }
 
-        Task<PageViewModel<UserViewModel>> IManageAccountService.GetAllAccount(string keyword, int pageIndex, int pageSize)
+        public async Task<List<UserViewModel>> GetAll()
         {
-            throw new NotImplementedException();
+            var query = from u in _context.AppUsers
+                        join ur in _context.UserRoles on u.Id equals ur.UserId
+                        join r in _context.AppRoles on ur.RoleId equals r.Id
+                        join au in _context.AreaUsers on u.Id equals au.UserId
+                        join a in _context.Areas on au.AreaId equals a.Id
+                        select new { u, r, a };
+            ;
+            var data = await query.Select(p => new UserViewModel()
+                {
+                    Id = p.u.Id,
+                    FullName = p.u.FullName,
+                    Email = p.u.Email,
+                    Status = p.u.Status,
+                    Role = p.r.Name,
+                    Area = p.a.Name,
+                }).ToListAsync()
+                ;
+            return data;
         }
 
-        Task<int> IManageAccountService.Update(EditProfileRequest request)
+        public async Task<ResultModel<UserViewModel>> GetAllAccount(GetUserPagingRequest request)
         {
-            throw new NotImplementedException();
+            var query = from u in _context.AppUsers 
+                        join ur in _context.UserRoles on u.Id equals ur.UserId
+                        join r in _context.AppRoles on ur.RoleId equals r.Id
+                        join au in _context.AreaUsers on u.Id equals au.UserId
+                        join a in _context.Areas on au.AreaId equals a.Id
+                        select new {u, r, a};
+                        ;
+            if (!string.IsNullOrEmpty(request.Keyword)) query = query.Where(x => x.u.FullName.Contains(request.Keyword));
+            if(request.UserId.Count > 0)
+            {
+                query = query.Where(x => request.UserId.Contains(x.u.Id));
+            }
+            int totalRow = await query.CountAsync();
+            var data = query.Skip((request.PageIndex - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .Select(p => new UserViewModel()
+                {
+                    Id = p.u.Id,
+                    FullName = p.u.FullName,
+                    Email = p.u.Email,
+                    Status = p.u.Status,
+                    Role = p.r.Name,
+                    Area = p.a.Name,
+                    }).ToListAsync()
+                ;
+            var pageResult = new ResultModel<UserViewModel>()
+            {
+                TotalRecord = totalRow,
+                Items = await data,
+            };
+            return pageResult;
+            
         }
-
-        Task<int> IManageAccountService.UpdatePassword(EditPasswordRequest request)
+/*        private async Task<string> SaveFile(IFormFile file)
         {
-            throw new NotImplementedException();
-        }
-
-        Task<int> IManageAccountService.View(ViewProfileRequest request)
-        {
-            throw new NotImplementedException();
-        }
+            var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
+            await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
+            return fileName;
+        }*/
     }
 }

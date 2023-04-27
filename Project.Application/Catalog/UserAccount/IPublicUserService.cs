@@ -1,4 +1,5 @@
-﻿using Project.Application.Catalog.UserAccount.Dtos;
+﻿using Project.Data.Entities;
+using Project.ViewModels.Catalog.UserAccount;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace Project.Application.Catalog.UserAccount
 {
     public interface IPublicUserService
     {
-        int View(ViewProfileRequest request);
+        Task<AppUser> View(ViewProfileRequest request);
 
-        int Update(EditProfileRequest request);
+        Task<bool> Update(EditProfileRequest request);
 
-        int UpdatePassword(EditPasswordRequest request);
+        Task<bool> UpdatePassword(EditPasswordRequest request);
     }
 }

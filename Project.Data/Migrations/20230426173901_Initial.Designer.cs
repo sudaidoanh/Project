@@ -12,8 +12,8 @@ using Project.Data.EF;
 namespace Project.Data.Migrations
 {
     [DbContext(typeof(ProjectDbContext))]
-    [Migration("20230424043226_InitialDatabase")]
-    partial class InitialDatabase
+    [Migration("20230426173901_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -97,9 +97,17 @@ namespace Project.Data.Migrations
                     b.Property<Guid>("RoleId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("UserId", "RoleId");
 
-                    b.ToTable("AppUserRoles", (string)null);
+                    b.ToTable("UserRoles", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUserRole<Guid>");
+
+                    b.UseTphMappingStrategy();
 
                     b.HasData(
                         new
@@ -166,7 +174,7 @@ namespace Project.Data.Migrations
                         {
                             Id = new Guid("6755b85d-9886-4e98-89df-fe320e6febd7"),
                             Action = "Admin",
-                            ConcurrencyStamp = "b219dce0-b82f-4e7a-8c39-058146a41176",
+                            ConcurrencyStamp = "5fd14ae5-4155-4cb1-88af-a0b2e2829186",
                             Description = "Adminstrator Role",
                             Manage = 0,
                             Name = "admin",
@@ -249,7 +257,7 @@ namespace Project.Data.Migrations
                             Id = new Guid("d49cad19-8d64-44fe-88ad-3e98fc3376ec"),
                             AccessFailedCount = 0,
                             Address = "Ho Chi Minh City",
-                            ConcurrencyStamp = "0e2b43aa-8afe-4b5b-a9eb-3affb61208fe",
+                            ConcurrencyStamp = "c78488c2-0456-4424-a783-d7484bdca7f6",
                             Email = "sudaidoanh@gmail.com",
                             EmailConfirmed = true,
                             FullName = "admin",
@@ -257,7 +265,7 @@ namespace Project.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "sudaidoanh@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAENey8NvZsesXIzE83kbmd5+vMro1YrIo23tbtjpJEgm6Te+v8GYnLQAdvDnx0EIiMw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBbOCkssu8UuDOMt4s6mE9e2HuNm3uIVlwjRixJhybQkfT0UfkcqtFuRl5xRUuAjVA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             Status = 0,
@@ -742,6 +750,15 @@ namespace Project.Data.Migrations
                     b.ToTable("TaskDetails", (string)null);
                 });
 
+            modelBuilder.Entity("Project.Data.Entities.AppUserRole", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasDiscriminator().HasValue("AppUserRole");
+                });
+
             modelBuilder.Entity("Project.Data.Entities.AreaDistributor", b =>
                 {
                     b.HasOne("Project.Data.Entities.Area", "Area")
@@ -917,8 +934,34 @@ namespace Project.Data.Migrations
                     b.Navigation("AppUser");
                 });
 
+            modelBuilder.Entity("Project.Data.Entities.AppUserRole", b =>
+                {
+                    b.HasOne("Project.Data.Entities.AppRole", "Role")
+                        .WithMany("AppUserRoles")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Project.Data.Entities.AppUser", "User")
+                        .WithMany("AppUserRoles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Project.Data.Entities.AppRole", b =>
+                {
+                    b.Navigation("AppUserRoles");
+                });
+
             modelBuilder.Entity("Project.Data.Entities.AppUser", b =>
                 {
+                    b.Navigation("AppUserRoles");
+
                     b.Navigation("AreaUser");
 
                     b.Navigation("Notifications");

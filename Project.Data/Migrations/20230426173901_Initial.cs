@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Project.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialDatabase : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -83,18 +83,6 @@ namespace Project.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AppUserLogins", x => x.UserId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AppUserRoles",
-                columns: table => new
-                {
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AppUserRoles", x => new { x.UserId, x.RoleId });
                 });
 
             migrationBuilder.CreateTable(
@@ -305,6 +293,31 @@ namespace Project.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserRoles",
+                columns: table => new
+                {
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserRoles", x => new { x.UserId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_UserRoles_AppRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AppRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserRoles_AppUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AppUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AreaUsers",
                 columns: table => new
                 {
@@ -489,17 +502,17 @@ namespace Project.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AppRoles",
                 columns: new[] { "Id", "Action", "ConcurrencyStamp", "Description", "Manage", "Name", "NormalizedName" },
-                values: new object[] { new Guid("6755b85d-9886-4e98-89df-fe320e6febd7"), "Admin", "b219dce0-b82f-4e7a-8c39-058146a41176", "Adminstrator Role", 0, "admin", "admin" });
-
-            migrationBuilder.InsertData(
-                table: "AppUserRoles",
-                columns: new[] { "RoleId", "UserId" },
-                values: new object[] { new Guid("6755b85d-9886-4e98-89df-fe320e6febd7"), new Guid("d49cad19-8d64-44fe-88ad-3e98fc3376ec") });
+                values: new object[] { new Guid("6755b85d-9886-4e98-89df-fe320e6febd7"), "Admin", "5fd14ae5-4155-4cb1-88af-a0b2e2829186", "Adminstrator Role", 0, "admin", "admin" });
 
             migrationBuilder.InsertData(
                 table: "AppUsers",
                 columns: new[] { "Id", "AccessFailedCount", "Address", "ConcurrencyStamp", "Email", "EmailConfirmed", "FullName", "Image", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "Status", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("d49cad19-8d64-44fe-88ad-3e98fc3376ec"), 0, "Ho Chi Minh City", "0e2b43aa-8afe-4b5b-a9eb-3affb61208fe", "sudaidoanh@gmail.com", true, "admin", 0, false, null, "sudaidoanh@gmail.com", "admin", "AQAAAAEAACcQAAAAENey8NvZsesXIzE83kbmd5+vMro1YrIo23tbtjpJEgm6Te+v8GYnLQAdvDnx0EIiMw==", null, false, "", 0, false, "admin" });
+                values: new object[] { new Guid("d49cad19-8d64-44fe-88ad-3e98fc3376ec"), 0, "Ho Chi Minh City", "c78488c2-0456-4424-a783-d7484bdca7f6", "sudaidoanh@gmail.com", true, "admin", 0, false, null, "sudaidoanh@gmail.com", "admin", "AQAAAAEAACcQAAAAEBbOCkssu8UuDOMt4s6mE9e2HuNm3uIVlwjRixJhybQkfT0UfkcqtFuRl5xRUuAjVA==", null, false, "", 0, false, "admin" });
+
+            migrationBuilder.InsertData(
+                table: "UserRoles",
+                columns: new[] { "RoleId", "UserId", "Discriminator" },
+                values: new object[] { new Guid("6755b85d-9886-4e98-89df-fe320e6febd7"), new Guid("d49cad19-8d64-44fe-88ad-3e98fc3376ec"), "IdentityUserRole<Guid>" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AreaDistributors_DistributorId",
@@ -580,6 +593,11 @@ namespace Project.Data.Migrations
                 name: "IX_Tasks_UserAskTaskId",
                 table: "Tasks",
                 column: "UserAskTaskId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserRoles_RoleId",
+                table: "UserRoles",
+                column: "RoleId");
         }
 
         /// <inheritdoc />
@@ -592,16 +610,10 @@ namespace Project.Data.Migrations
                 name: "AppRoleClaims");
 
             migrationBuilder.DropTable(
-                name: "AppRoles");
-
-            migrationBuilder.DropTable(
                 name: "AppUserClaims");
 
             migrationBuilder.DropTable(
                 name: "AppUserLogins");
-
-            migrationBuilder.DropTable(
-                name: "AppUserRoles");
 
             migrationBuilder.DropTable(
                 name: "AppUserTokens");
@@ -640,6 +652,9 @@ namespace Project.Data.Migrations
                 name: "TaskDetails");
 
             migrationBuilder.DropTable(
+                name: "UserRoles");
+
+            migrationBuilder.DropTable(
                 name: "Areas");
 
             migrationBuilder.DropTable(
@@ -650,6 +665,9 @@ namespace Project.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Tasks");
+
+            migrationBuilder.DropTable(
+                name: "AppRoles");
 
             migrationBuilder.DropTable(
                 name: "AppUsers");

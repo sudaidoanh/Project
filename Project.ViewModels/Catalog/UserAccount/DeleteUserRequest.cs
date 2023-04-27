@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Project.Application.Catalog.UserAccount.Dtos
+namespace Project.ViewModels.Catalog.UserAccount
 {
-    public class ViewProfileRequest
+    public class DeleteUserRequest
     {
     }
 }

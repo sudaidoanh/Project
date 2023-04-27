@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Project.Application.Dtos
+namespace Project.ViewModels.Common
 {
-    public class PageViewModel<T>
+    public class ResultModel<T>
     {
         public List<T> Items { get; set; }
         public int TotalRecord { get; set; }
