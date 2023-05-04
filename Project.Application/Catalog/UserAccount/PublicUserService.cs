@@ -26,6 +26,11 @@ namespace Project.Application.Catalog.UserAccount
             _storageService = storageService;
         }
 
+        public Task<bool> LastestCommemts(EditPasswordRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<bool> Update(EditProfileRequest request)
         {
             var account = await _context.AppUsers.FindAsync(request.UserId);
@@ -76,6 +81,16 @@ namespace Project.Application.Catalog.UserAccount
             if (account == null) throw new CustomException($"Can not find user account {request.UserId}");
 
             return account;
+        }
+
+        public Task<bool> ViewCourses(EditPasswordRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> ViewTasks(EditPasswordRequest request)
+        {
+            throw new NotImplementedException();
         }
 
         private async Task<string> SaveFile(IFormFile file)

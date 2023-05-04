@@ -15,5 +15,8 @@ namespace Project.Application.Catalog.UserAccount
         Task<bool> Update(EditProfileRequest request);
 
         Task<bool> UpdatePassword(EditPasswordRequest request);
+        Task<bool> ViewTasks(EditPasswordRequest request);
+        Task<bool> LastestCommemts(EditPasswordRequest request);
+        Task<bool> ViewCourses(EditPasswordRequest request);
     }
 }

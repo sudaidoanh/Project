@@ -171,7 +171,7 @@ namespace Project.Data.Migrations
                         {
                             Id = new Guid("6755b85d-9886-4e98-89df-fe320e6febd7"),
                             Action = "Admin",
-                            ConcurrencyStamp = "d0d8f06a-dfd1-490f-9431-1b8d5eb3f775",
+                            ConcurrencyStamp = "e0eaf2c1-63ee-4be2-8378-da60a761cbba",
                             Description = "Adminstrator Role",
                             Manage = 0,
                             Name = "admin",
@@ -254,7 +254,7 @@ namespace Project.Data.Migrations
                             Id = new Guid("d49cad19-8d64-44fe-88ad-3e98fc3376ec"),
                             AccessFailedCount = 0,
                             Address = "Ho Chi Minh City",
-                            ConcurrencyStamp = "7e2ec18c-ba4d-451e-b0da-d3a0bdfb306b",
+                            ConcurrencyStamp = "da61b2ee-f07d-4787-92e5-9806433bba26",
                             Email = "sudaidoanh@gmail.com",
                             EmailConfirmed = true,
                             FullName = "admin",
@@ -262,7 +262,7 @@ namespace Project.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "sudaidoanh@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKQsDgQmMuHLgVHbtmhDKViSCwGoi9GLFItvq/7bebCX/3cyxU5tvIL3kfEkjTjTBA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEE6upT1YhReR0M+/xPvnvl5z82xDWkJ1rTRLbOjuccDpWqZwy/gze1bGKeTUvNIbjA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             Status = 0,
@@ -279,9 +279,9 @@ namespace Project.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("Code")
+                    b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -290,6 +290,14 @@ namespace Project.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Areas", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Code = "CD01",
+                            Name = "Area 1"
+                        });
                 });
 
             modelBuilder.Entity("Project.Data.Entities.AreaDistributor", b =>
@@ -320,6 +328,13 @@ namespace Project.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("AreaUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            AreaId = 1,
+                            UserId = new Guid("d49cad19-8d64-44fe-88ad-3e98fc3376ec")
+                        });
                 });
 
             modelBuilder.Entity("Project.Data.Entities.Configuration", b =>
@@ -764,8 +779,8 @@ namespace Project.Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("FileSize")
-                        .HasColumnType("int");
+                    b.Property<long>("FileSize")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("ImagePath")
                         .IsRequired()

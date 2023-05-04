@@ -13,7 +13,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="System\Users\" />
+    <Folder Include="Catalog\Notification\" />
+    <Folder Include="Catalog\Survey\" />
+    <Folder Include="Catalog\Task\" />
+    <Folder Include="Catalog\Plan\" />
+    <Folder Include="Catalog\Post\" />
   </ItemGroup>
 
   <ItemGroup>

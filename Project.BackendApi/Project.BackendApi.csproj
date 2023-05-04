@@ -7,10 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Project.Application\Project.Application.csproj" />
     <ProjectReference Include="..\Project.Data\Project.Data.csproj" />
     <ProjectReference Include="..\Project.Uttilities\Project.Uttilities.csproj" />
     <ProjectReference Include="..\Project.ViewModels\Project.ViewModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\user-content\" />
   </ItemGroup>
 
 </Project>

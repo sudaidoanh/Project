@@ -10,9 +10,10 @@ namespace Project.Application.Catalog.UserAccount
 {
     public interface IManageAccountService
     {
-        Task<int> Create(UserCreateRequest request);
+        Task<Guid> Create(UserCreateRequest request);
         Task<int> Delete(Guid UserId);
         Task<ResultModel<UserViewModel>> GetAllAccount(GetUserPagingRequest request);
         Task<List<UserViewModel>> GetAll();
+        Task<UserViewModel> GetById(Guid UserId);  
     }
 }

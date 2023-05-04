@@ -45,6 +45,19 @@ namespace Project.Data.Extensions
                 RoleId = ROLE_ID,
                 UserId = ADMIN_ID,
             });
+
+            modelBuilder.Entity<Area>().HasData(new Area()
+            {
+                Id = 1,
+                Name = "Area 1",
+                Code = "CD01",
+            });
+
+            modelBuilder.Entity<AreaUser>().HasData(new AreaUser()
+            {
+                UserId = ADMIN_ID,
+                AreaId = 1,
+            });
         }
     }
 }

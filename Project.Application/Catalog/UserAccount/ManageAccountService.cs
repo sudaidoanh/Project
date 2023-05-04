@@ -1,8 +1,7 @@
-﻿using Azure.Core;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-/*using Project.Application.Common;*/
+using Project.Application.Common;
 using Project.Data.EF;
 using Project.Data.Entities;
 using Project.Uttilities.Exceptions;
@@ -20,17 +19,18 @@ namespace Project.Application.Catalog.UserAccount
     public class ManageAccountService : IManageAccountService
     {
         private readonly ProjectDbContext _context;
-       /* private readonly IStorageService _storageService;*/
-        public ManageAccountService(ProjectDbContext context/*, IStorageService storageService*/)
+        private readonly IStorageService _storageService;
+        public ManageAccountService(ProjectDbContext context, IStorageService storageService)
         {
             _context = context;
-            /*_storageService = storageService;*/
+            _storageService = storageService;
         }
-        public async Task<int> Create(UserCreateRequest request)
+        public async Task<Guid> Create(UserCreateRequest request)
         {
             var hasher = new PasswordHasher<AppUser>();
             var account = new AppUser()
             {
+                Id = Guid.NewGuid(),
                 FullName = request.FullName,
                 Email = request.Email,
                 Address = request.Address,
@@ -47,7 +47,8 @@ namespace Project.Application.Catalog.UserAccount
                 } }
             };
             _context.AppUsers.Add(account);
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            return account.Id;
         }
 
         public async Task<int> Delete(Guid UserId)
@@ -68,23 +69,21 @@ namespace Project.Application.Catalog.UserAccount
         public async Task<List<UserViewModel>> GetAll()
         {
             var query = from u in _context.AppUsers
-                        join ur in _context.UserRoles on u.Id equals ur.UserId
-                        join r in _context.AppRoles on ur.RoleId equals r.Id
-                        join au in _context.AreaUsers on u.Id equals au.UserId
+/*                        join au in _context.AreaUsers on u.Id equals au.UserId
                         join a in _context.Areas on au.AreaId equals a.Id
-                        select new { u, r, a };
+                        join ur in _context.UserRoles on u.Id equals ur.UserId
+                        join r in _context.AppRoles on ur.RoleId equals r.Id*/
+                        select new { u, /*a, r */};
             ;
-            var data = await query.Select(p => new UserViewModel()
-                {
-                    Id = p.u.Id,
-                    FullName = p.u.FullName,
-                    Email = p.u.Email,
-                    Status = p.u.Status,
-                    Role = p.r.Name,
-                    Area = p.a.Name,
-                }).ToListAsync()
-                ;
-            return data;
+            return await query.Select(p => new UserViewModel()
+            {
+                Id = p.u.Id,
+                FullName = p.u.FullName,
+                Email = p.u.Email,
+                Status = p.u.Status,
+/*                Role = p.r.Name,
+                Area = p.a.Name,*/
+            }).ToListAsync();
         }
 
         public async Task<ResultModel<UserViewModel>> GetAllAccount(GetUserPagingRequest request)
@@ -110,8 +109,8 @@ namespace Project.Application.Catalog.UserAccount
                     FullName = p.u.FullName,
                     Email = p.u.Email,
                     Status = p.u.Status,
-                    Role = p.r.Name,
-                    Area = p.a.Name,
+/*                    Role = p.r.Name,
+                    Area = p.a.Name,*/
                     }).ToListAsync()
                 ;
             var pageResult = new ResultModel<UserViewModel>()
@@ -122,12 +121,29 @@ namespace Project.Application.Catalog.UserAccount
             return pageResult;
             
         }
-/*        private async Task<string> SaveFile(IFormFile file)
+
+        public async Task<UserViewModel> GetById(Guid UserId)
+        {
+            var account = await _context.AppUsers.FindAsync(UserId);
+          /*  var userRole = await _context.UserRoles.FirstOrDefaultAsync(x => x.UserId == account.Id);*/
+            var role = await _context.AppRoles.FindAsync(new Guid("6755B85D-9886-4E98-89DF-FE320E6FEBD7"));
+            var userViewModel = new UserViewModel()
+            {
+                Id = UserId,
+                FullName = account.FullName,
+                Email = account.Email,
+                Status = account.Status,
+                Role = role.Name,
+            }
+            ;
+            return userViewModel;
+        }
+        private async Task<string> SaveFile(IFormFile file)
         {
             var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
             var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
             await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
             return fileName;
-        }*/
+        }
     }
 }
