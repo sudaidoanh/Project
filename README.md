@@ -29,3 +29,7 @@
 - Create Backend API layer structure
 - Create user - admin side functions including: account management (create, delete, query, search and paging), user-side (view profile, edit profile picture and personal information, change change Password)
 - Create Backend API gets all user account admin side 
+## 27/4 - 4/5 :
+- Add swagger to application to manage the API 
+- Create Restful API for the administrator to manage the account (get all, get by Id, create new, delete one or many)
+- Create login API with JWT integration authenticate
