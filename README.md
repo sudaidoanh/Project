@@ -36,6 +36,6 @@
 ## 4/5 - 8/5: 
 - Add Authorization header to Swagger
 - Focus on debugging and reconfiguration
-- Create Restful API for user to updates profile, uploads personal image, changes password
+- Create Restful API for user to updates profile, uploads personal image, changes password (image is storaged on server, folder Project.BackendApi/wwwroot/user-content)
 - Create Area functions and Area APIs include: Create new area based on area name, load model view of area, load model view based on dependent distributor,
 load model view based on dependent user
