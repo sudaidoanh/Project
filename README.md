@@ -34,8 +34,8 @@
 - Create Restful API for the administrator to manage the account (get all, get by Id, create new, delete one or many)
 - Create authenticate API with JWT return JWT
 ## 4/5 - 8/5: 
--  Add Authorization header to Swagger
+- Add Authorization header to Swagger
 - Focus on debugging and reconfiguration
-- Create Restful API for user to update profile, upload personal image, change password
-- Create Area functions and Area APIs include: Create new area base on Area Name, load model view of area, load model view based on dependent distributor,
+- Create Restful API for user to updates profile, uploads personal image, changes password
+- Create Area functions and Area APIs include: Create new area based on area name, load model view of area, load model view based on dependent distributor,
 load model view based on dependent user
