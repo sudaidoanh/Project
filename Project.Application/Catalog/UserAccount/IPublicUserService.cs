@@ -10,7 +10,7 @@ namespace Project.Application.Catalog.UserAccount
 {
     public interface IPublicUserService
     {
-        Task<AppUser> View(ViewProfileRequest request);
+        Task<UserViewModel> View(Guid guid);
 
         Task<bool> Update(EditProfileRequest request);
 

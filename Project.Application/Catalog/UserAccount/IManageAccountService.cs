@@ -14,6 +14,6 @@ namespace Project.Application.Catalog.UserAccount
         Task<int> Delete(Guid UserId);
         Task<ResultModel<UserViewModel>> GetAllAccount(GetUserPagingRequest request);
         Task<List<UserViewModel>> GetAll();
-        Task<UserViewModel> GetById(Guid UserId);  
+        Task<UserViewModel> GetById(Guid UserId);
     }
 }

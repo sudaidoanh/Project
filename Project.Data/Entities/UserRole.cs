@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Project.Data.Entities
 {
-    public class AppUserRole : IdentityUserRole<Guid>
+    public class UserRole : IdentityUserRole<Guid>
     {
         public AppUser User { get; set; }
         public AppRole Role { get; set; }

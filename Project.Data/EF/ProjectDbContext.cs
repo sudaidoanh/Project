@@ -35,7 +35,7 @@ namespace Project.Data.EF
             modelBuilder.ApplyConfiguration(new SystemActivityConfiguration());
             modelBuilder.ApplyConfiguration(new UserImageConfiguration());
 
-            modelBuilder.ApplyConfiguration(new AppUserRoleConfiguration());
+            modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
             modelBuilder.ApplyConfiguration(new AppUserConfiguration());
             modelBuilder.ApplyConfiguration(new AppRoleConfiguration());
 
@@ -52,7 +52,7 @@ namespace Project.Data.EF
 
         public DbSet<AppRole> AppRoles { get; set; }
         public DbSet<AppUser> AppUsers { get; set; }
-        public DbSet<AppUserRole> UserRoles { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<Distributor> Distributors { get; set; }
         public DbSet<UserImage> UserImages { get; set; }
         public DbSet<Area> Areas { get; set; }

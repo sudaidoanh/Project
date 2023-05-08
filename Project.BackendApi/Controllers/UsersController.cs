@@ -2,12 +2,14 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Project.Application.System.Users;
+using Project.ViewModels.Catalog.UserAccount;
 using Project.ViewModels.System.Users;
 
 namespace Project.BackendApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -24,12 +26,15 @@ namespace Project.BackendApi.Controllers
             {
                 return BadRequest(ModelState);
             }
+
             var resultToken = await _userService.Authenticate(request);
+
             if(string.IsNullOrEmpty(resultToken))
             {
                 return BadRequest("Login faild");
             }
-            return Ok(new { token = resultToken });
+            return Ok(resultToken);
         }
+
     }
 }

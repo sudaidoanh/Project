@@ -11,6 +11,6 @@ namespace Project.Application.System.Users
     {
         Task<string> Authenticate(LoginRequest request);
         /*Task<bool> Register(RegisterRequest request);*/
-
+        Task<bool> Logout();
     }
 }

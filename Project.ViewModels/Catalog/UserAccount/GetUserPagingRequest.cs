@@ -10,6 +10,6 @@ namespace Project.ViewModels.Catalog.UserAccount
     public class GetUserPagingRequest : PagingRequestBase
     {
         public string Keyword { get; set; }
-        public List<Guid> UserId { get; set; }
+        /*public List<Guid> UserId { get; set; }*/
     }
 }

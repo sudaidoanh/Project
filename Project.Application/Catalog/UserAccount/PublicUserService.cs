@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Project.Application.Common;
 using Project.Data.EF;
@@ -9,6 +8,7 @@ using Project.Uttilities.Exceptions;
 using Project.ViewModels.Catalog.UserAccount;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
@@ -20,10 +20,13 @@ namespace Project.Application.Catalog.UserAccount
     {
         private readonly ProjectDbContext _context;
         private readonly IStorageService _storageService;
-        public PublicUserService(ProjectDbContext context, IStorageService storageService)
+        private readonly SignInManager<AppUser> _signInManager;
+
+        public PublicUserService(ProjectDbContext context, IStorageService storageService, SignInManager<AppUser> signInManager)
         {
             _context = context;
             _storageService = storageService;
+            _signInManager = signInManager;
         }
 
         public Task<bool> LastestCommemts(EditPasswordRequest request)
@@ -69,18 +72,37 @@ namespace Project.Application.Catalog.UserAccount
             var hasher = new PasswordHasher<AppUser>();
             var account = await _context.AppUsers.FindAsync(request.UserId);
             if (account == null) throw new CustomException($"Can not find user account {request.UserId}");
-            if(!hasher.HashPassword(null, request.OldPassword).Equals(account.PasswordHash)) throw new CustomException("The old password is incorrect");
+
+            var result = await _signInManager.CheckPasswordSignInAsync(account, request.OldPassword, true);
+            if (!result.Succeeded) throw new CustomException("Old password is incorrect");
+
+/*            if (!hasher.HashPassword(null, request.OldPassword).Equals(account.PasswordHash)) throw new CustomException("The old password is incorrect"); */
             if(!request.NewPassword.Equals(request.ConfirmPassword)) throw new CustomException("Re-enter password does not match");
             account.PasswordHash = hasher.HashPassword(null, request.NewPassword);
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<AppUser> View(ViewProfileRequest request)
+        public async Task<UserViewModel> View(Guid guid)
         {
-            var account = await _context.AppUsers.FindAsync(request.UserId);
-            if (account == null) throw new CustomException($"Can not find user account {request.UserId}");
+            var account = await _context.AppUsers.FindAsync(guid);
+            if (account == null) throw new CustomException($"Can not find user account {guid}");
+            var userRole = await _context.UserRoles.FirstOrDefaultAsync(x => x.UserId == guid);
+            if (userRole == null) throw new CustomException($"Can not find Role of account {account.FullName}");
+            var role = await _context.AppRoles.FindAsync(new Guid($"{userRole.RoleId}"));
+            var image = await _context.UserImages.FirstOrDefaultAsync(x => x.UserId == guid);
 
-            return account;
+            return new UserViewModel()
+            {
+                Id = guid,
+                FullName = account.FullName,
+                Email = account.Email,
+                Status = account.Status,
+                Role = role.Name,
+                Address = account.Address,
+                Phone = account.PhoneNumber,
+                imagePath = image.ImagePath,
+            }
+            ;
         }
 
         public Task<bool> ViewCourses(EditPasswordRequest request)

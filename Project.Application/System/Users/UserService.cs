@@ -2,10 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Project.Data.Entities;
-using Project.Uttilities.Exceptions;
 using Project.ViewModels.System.Users;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -18,14 +16,17 @@ namespace Project.Application.System.Users
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
-        /*private readonly RoleManager<AppRole> _roleManager;*/
+        private readonly RoleManager<AppRole> _roleManager;
         private readonly IConfiguration _config;
-        public UserService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, /*RoleManager<AppRole> roleManager,*/ IConfiguration config) 
-        { 
+        public UserService(UserManager<AppUser> userManager,
+            SignInManager<AppUser> signInManager,
+            RoleManager<AppRole> roleManager,
+            IConfiguration config)
+        {
             _userManager = userManager;
             _signInManager = signInManager;
-/*            _roleManager = roleManager;
-*/            _config = config;
+            _roleManager = roleManager;
+            _config = config;
         }
 
         public async Task<string> Authenticate(LoginRequest request)
@@ -40,7 +41,8 @@ namespace Project.Application.System.Users
             var claims = new[]
             {
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Name, user.FullName),
+                new Claim(ClaimTypes.GivenName, user.FullName),
+                new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.Role, string.Join(";", roles)),
             };
 
@@ -55,6 +57,11 @@ namespace Project.Application.System.Users
                 );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public Task<bool> Logout()
+        {
+            throw new NotImplementedException();
         }
 
         /*public Task<bool> Register(RegisterRequest request)

@@ -12,6 +12,6 @@ namespace Project.Data.Entities
         public string Description { get; set; }
         public int Manage { get; set; }
         public string Action { get; set; }
-        public List<AppUserRole> AppUserRoles { get; set; }
+        public List<UserRole> UserRoles { get; set; }
     }
 }
