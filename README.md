@@ -29,3 +29,13 @@
 - Create Backend API layer structure
 - Create user - admin side functions including: account management (create, delete, query, search and paging), user-side (view profile, edit profile picture and personal information, change change Password)
 - Create Backend API gets all user account admin side 
+## 27/4 - 4/5 :
+- Add swagger to application to manage the API 
+- Create Restful API for the administrator to manage the account (get all, get by Id, create new, delete one or many)
+- Create authenticate API with JWT return JWT
+## 4/5 - 8/5: 
+- Add Authorization header to Swagger
+- Focus on debugging and reconfiguration
+- Create Restful API for user to updates profile, uploads personal image, changes password
+- Create Area functions and Area APIs include: Create new area based on area name, load model view of area, load model view based on dependent distributor,
+load model view based on dependent user
