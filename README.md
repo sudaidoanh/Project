@@ -39,3 +39,7 @@
 - Create Restful API for user to updates profile, uploads personal image, changes password (image is storaged on server, folder Project.BackendApi/wwwroot/user-content)
 - Create Area functions and Area APIs include: Create new area based on area name, load model view of area, load model view based on dependent distributor,
 load model view based on dependent user
+## 8/5 - 11/5:
+- Create Resful API to manage areas, get all areas, get detail area with user view, get detail area with distributor view, add user account using areaId from query uri, add distributor from query uri, remove list users from area, remove list distributors from area
+- Create role functions to assign roles
+- Create visit planning functions: add new plan
