@@ -101,7 +101,6 @@ namespace Project.Application.Catalog.UserAccount
             if (!string.IsNullOrEmpty(request.Keyword)) query = query.Where(x => x.u.FullName.Contains(request.Keyword));
 
             /*if(request.UserId.Count > 0) query = query.Where(x => request.UserId.Contains(x.u.Id));*/
-            
             int totalRow = await query.CountAsync();
             var data = query.Skip((request.PageIndex - 1) * request.PageSize)
                 .Take(request.PageSize)

@@ -13,8 +13,13 @@ namespace Project.Application.Catalog.Area
     {
         Task<ResultModel<AreaViewModel>> GetAllArea(GetAreaPagingRequest request);
         Task<string> Create(string AreaName);
-        Task<ResultModel<UserViewModel>> GetAreaUser(GetAreaPagingRequest request);
-        Task<ResultModel<DistributorViewModel>> GetAreaDistributor(GetAreaPagingRequest request);
+        Task<Guid> CreateAccountUserArea(int AreaId, UserCreateRequest request);
+        Task<int> DeleteUserArea(List<Guid> guids);
+        Task<int> Delete(List<int> AreaId);
+        Task<int> CreateDistributorArea(int AreaId, DistributorCreateRequest request);
+
+        Task<ResultModel<UserViewModel>> GetAreaUser(int AreaId, GetAreaPagingRequest request);
+        Task<ResultModel<DistributorViewModel>> GetAreaDistributor(int AreaId, GetAreaPagingRequest request);
 
     }
 }
