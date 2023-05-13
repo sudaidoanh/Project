@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project.Data.EF;
 
@@ -11,9 +12,11 @@ using Project.Data.EF;
 namespace Project.Data.Migrations
 {
     [DbContext(typeof(ProjectDbContext))]
-    partial class ProjectDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230513113934_ConfigurePlanTabless")]
+    partial class ConfigurePlanTabless
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -171,7 +174,7 @@ namespace Project.Data.Migrations
                         {
                             Id = new Guid("6755b85d-9886-4e98-89df-fe320e6febd7"),
                             Action = "Admin",
-                            ConcurrencyStamp = "ef26fb4f-9c7a-42d0-a851-d18a603377f4",
+                            ConcurrencyStamp = "d44767f1-80f0-4f57-8787-90319b17ae1c",
                             Description = "Adminstrator Role",
                             Manage = 0,
                             Name = "admin",
@@ -254,7 +257,7 @@ namespace Project.Data.Migrations
                             Id = new Guid("d49cad19-8d64-44fe-88ad-3e98fc3376ec"),
                             AccessFailedCount = 0,
                             Address = "Ho Chi Minh City",
-                            ConcurrencyStamp = "0d9ac21e-9d19-49c3-a7bd-be5dad6d3394",
+                            ConcurrencyStamp = "d2f4893e-fd74-428c-9edf-692a66e15fb0",
                             Email = "sudaidoanh@gmail.com",
                             EmailConfirmed = true,
                             FullName = "admin",
@@ -262,7 +265,7 @@ namespace Project.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "sudaidoanh@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAELTqndeCFgXRdPicva1Svv2kwoh1Cyf1cwTfbPGZwunpHNFEwfVVgA2iHzh4OY1oeA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJHJm7cIzkWD3mPpeUTYsNqfwb/8NjCbFBx9/hOEoOBCfX1BQ4Jbo5ISMgmgDKSJmQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             Status = 0,
@@ -456,6 +459,9 @@ namespace Project.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<Guid>("AppUserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("Calendar")
                         .HasColumnType("datetime2");
 
@@ -487,6 +493,8 @@ namespace Project.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
 
                     b.HasIndex("DistributorId");
 
@@ -857,11 +865,21 @@ namespace Project.Data.Migrations
 
             modelBuilder.Entity("Project.Data.Entities.Plan", b =>
                 {
-                    b.HasOne("Project.Data.Entities.Distributor", null)
+                    b.HasOne("Project.Data.Entities.AppUser", "AppUser")
+                        .WithMany("Plans")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Project.Data.Entities.Distributor", "Distributor")
                         .WithMany("Plans")
                         .HasForeignKey("DistributorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Distributor");
                 });
 
             modelBuilder.Entity("Project.Data.Entities.Post", b =>
@@ -1000,6 +1018,8 @@ namespace Project.Data.Migrations
                     b.Navigation("AreaUser");
 
                     b.Navigation("Notifications");
+
+                    b.Navigation("Plans");
 
                     b.Navigation("Posts");
 

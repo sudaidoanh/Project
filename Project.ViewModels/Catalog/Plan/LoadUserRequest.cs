@@ -4,13 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Project.Data.Enums
+namespace Project.ViewModels.Catalog.Plan
 {
-    public enum Status
+    public class LoadUserRequest
     {
-        InActive,
-        Active,
-        Accept,
-        Ignore
+        public Guid Id;
+        public string Name;
     }
 }

@@ -24,7 +24,6 @@ namespace Project.Data.Entities
         public List<Survey> Surveyes { get; set; }
         public List<Report> Reports { get; set; }
         public List<Post> Posts { get; set; }
-        public List<Plan> Plans { get; set; }
         public List<UserImage> UserImages { get; set; }
     }
 }

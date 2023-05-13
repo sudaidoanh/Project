@@ -116,6 +116,17 @@ namespace Project.BackendApi.Controllers
             return BadRequest();
         }
 
+        [HttpDelete("Area/{AreaId}/Distributors")]
+        public async Task<IActionResult> DeleteUDistributor([FromForm] List<int> distributorId)
+        {
+            var userId = await _areaManageService.DeleteUDistributor(distributorId);
+            if (userId == 0)
+            {
+                return BadRequest();
+            }
+            return Ok();
+        }
+
         [HttpGet("Area/{AreaId}/Users")]
         public async Task<IActionResult> GetAreaUser(int AreaId, [FromQuery] GetAreaPagingRequest request)
         {
@@ -127,7 +138,7 @@ namespace Project.BackendApi.Controllers
         }
 
         [HttpPost("Area/{AreaId}/Users")]
-        public async Task<IActionResult> AddAreaUser(int AreaId, [FromQuery] UserCreateRequest request)
+        public async Task<IActionResult> AddAreaUser(int AreaId, [FromForm] UserCreateRequest request)
         {
             request.AreaId = AreaId;
             var userId = await _areaManageService.CreateAccountUserArea(AreaId, request);
@@ -139,8 +150,20 @@ namespace Project.BackendApi.Controllers
             return BadRequest();
         }
 
+        [HttpPost("Area/{AreaId}")]
+        public async Task<IActionResult> AssignAreaUser(int AreaId, [FromForm] List<Guid> guid)
+        {
+            var areaUser = await _areaManageService.AssignAreaUser(AreaId, guid);
+            if (areaUser > 0)
+            {
+                return Ok(areaUser);
+
+            }
+            return BadRequest();
+        }
+
         [HttpDelete("Area/{AreaId}/Users")]
-        public async Task<IActionResult> DeleteUserArea(List<Guid> guid)
+        public async Task<IActionResult> DeleteUserArea([FromForm] List<Guid> guid)
         {
             var userId = await _areaManageService.DeleteUserArea(guid);
             if (userId == 0)

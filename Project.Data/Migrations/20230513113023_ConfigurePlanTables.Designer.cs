@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project.Data.EF;
 
@@ -11,9 +12,11 @@ using Project.Data.EF;
 namespace Project.Data.Migrations
 {
     [DbContext(typeof(ProjectDbContext))]
-    partial class ProjectDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230513113023_ConfigurePlanTables")]
+    partial class ConfigurePlanTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -171,7 +174,7 @@ namespace Project.Data.Migrations
                         {
                             Id = new Guid("6755b85d-9886-4e98-89df-fe320e6febd7"),
                             Action = "Admin",
-                            ConcurrencyStamp = "ef26fb4f-9c7a-42d0-a851-d18a603377f4",
+                            ConcurrencyStamp = "0c3c73d4-437e-4fe9-9dc9-ea53a6c6847b",
                             Description = "Adminstrator Role",
                             Manage = 0,
                             Name = "admin",
@@ -254,7 +257,7 @@ namespace Project.Data.Migrations
                             Id = new Guid("d49cad19-8d64-44fe-88ad-3e98fc3376ec"),
                             AccessFailedCount = 0,
                             Address = "Ho Chi Minh City",
-                            ConcurrencyStamp = "0d9ac21e-9d19-49c3-a7bd-be5dad6d3394",
+                            ConcurrencyStamp = "e1bf55ef-0afa-4c89-9fac-d4293ae4ff20",
                             Email = "sudaidoanh@gmail.com",
                             EmailConfirmed = true,
                             FullName = "admin",
@@ -262,7 +265,7 @@ namespace Project.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "sudaidoanh@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAELTqndeCFgXRdPicva1Svv2kwoh1Cyf1cwTfbPGZwunpHNFEwfVVgA2iHzh4OY1oeA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELSY9WmPwtqY+Uf25gRmPx6NF0gILOwQn6IaYBA7ehDNDc0xDmdm2oiFT8HTpHmqxA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             Status = 0,
@@ -451,22 +454,24 @@ namespace Project.Data.Migrations
             modelBuilder.Entity("Project.Data.Entities.Plan", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("Calendar")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("DistributorId")
                         .HasColumnType("int");
 
                     b.Property<Guid>("Invited")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Calendar")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Purpose")
                         .IsRequired()
@@ -483,12 +488,11 @@ namespace Project.Data.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(20)");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
+                    b.HasKey("Id", "UserId", "DistributorId", "Invited");
 
                     b.HasIndex("DistributorId");
+
+                    b.HasIndex("Invited");
 
                     b.ToTable("Plans", (string)null);
                 });
@@ -857,11 +861,21 @@ namespace Project.Data.Migrations
 
             modelBuilder.Entity("Project.Data.Entities.Plan", b =>
                 {
-                    b.HasOne("Project.Data.Entities.Distributor", null)
+                    b.HasOne("Project.Data.Entities.Distributor", "Distributor")
                         .WithMany("Plans")
                         .HasForeignKey("DistributorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Project.Data.Entities.AppUser", "AppUser")
+                        .WithMany("Plans")
+                        .HasForeignKey("Invited")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Distributor");
                 });
 
             modelBuilder.Entity("Project.Data.Entities.Post", b =>
@@ -1000,6 +1014,8 @@ namespace Project.Data.Migrations
                     b.Navigation("AreaUser");
 
                     b.Navigation("Notifications");
+
+                    b.Navigation("Plans");
 
                     b.Navigation("Posts");
 

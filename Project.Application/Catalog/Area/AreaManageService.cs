@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Project.Application.Common;
 using Project.Data.EF;
 using Project.Data.Entities;
@@ -10,6 +11,7 @@ using Project.ViewModels.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,6 +36,21 @@ namespace Project.Application.Catalog.Area
             return area.Code;
         }
 
+        public async Task<DistributorViewModel> GetDistributorById(int AreaId)
+        {
+            var areaDistributor = await _context.AreaDistributors.FirstOrDefaultAsync(x => x.AreaId == AreaId);
+            var dis = await _context.Distributors.FindAsync(areaDistributor.DistributorId);
+            var distributor = new DistributorViewModel()
+            {
+                Id = dis.Id,
+                Name = dis.Name,
+                Email = dis.Email,
+                Address = dis.Address,
+                Phone = dis.Phone,
+            };
+            return distributor;
+        }
+
         public async Task<int> Delete(List<int> AreaId)
         {
             foreach(var x in AreaId)
@@ -47,16 +64,10 @@ namespace Project.Application.Catalog.Area
 
         public async Task<ResultModel<AreaViewModel>> GetAllArea(GetAreaPagingRequest request)
         {
-            var query = from a in _context.Areas
-                        join ad in _context.AreaDistributors on a.Id equals ad.AreaId
-                        join d in _context.Distributors on ad.DistributorId equals d.Id
-                        select new { a, ad, d };
-            if(string.IsNullOrEmpty(request.Keyword))
-            {
-                query = query.Where(x => x.a.Name.Contains(request.Keyword));
-                query = query.Where(x => x.a.Code.Contains(request.Keyword));
-                query = query.Where(x => x.d.Name.Contains(request.Keyword));
-            }
+            var query = from a in _context.Areas.Where(a => a.Name.Contains(request.Keyword) || a.Code.Contains(request.Keyword))
+                        from ad in _context.AreaDistributors.Where(ad => a.Id == ad.AreaId).DefaultIfEmpty()
+                        select new { a, ad };
+
             int totalRow = await query.CountAsync();
             var data = query.Skip((request.PageIndex - 1) * request.PageSize)
                 .Take(request.PageSize)
@@ -65,7 +76,7 @@ namespace Project.Application.Catalog.Area
                     Id = p.a.Id,
                     Code = p.a.Code,
                     Name = p.a.Name,
-                    DistributorCity = p.d.Id,
+                    DistributorCity = p.ad.DistributorId,
                 }).ToListAsync()
                 ;
             var pageResult = new ResultModel<AreaViewModel>()
@@ -78,12 +89,10 @@ namespace Project.Application.Catalog.Area
 
         public async Task<ResultModel<DistributorViewModel>> GetAreaDistributor(int AreaId, GetAreaPagingRequest request)
         {
-            var query = from a in _context.Areas
-                        join ad in _context.AreaDistributors on a.Id equals ad.AreaId
+            var query = from ad in _context.AreaDistributors.Where( ad => ad.AreaId == AreaId)
                         join d in _context.Distributors on ad.DistributorId equals d.Id
-                        select new { a, ad, d };
-            query = query.Where(x => x.ad.AreaId == AreaId);
-            if (string.IsNullOrEmpty(request.Keyword))
+                        select new { ad, d };
+            if (!string.IsNullOrEmpty(request.Keyword))
             {
                 query = query.Where(x => x.d.Name.Contains(request.Keyword));
             }
@@ -116,7 +125,7 @@ namespace Project.Application.Catalog.Area
                         join r in _context.AppRoles on ur.RoleId equals r.Id
                         select new { a, au, u, r} ;
             query = query.Where(x => x.au.AreaId == AreaId);
-            if (string.IsNullOrEmpty(request.Keyword))
+            if (!string.IsNullOrEmpty(request.Keyword))
             {
                 query = query.Where(x => x.u.FullName.Contains(request.Keyword));
 
@@ -169,6 +178,20 @@ namespace Project.Application.Catalog.Area
             return account.Id;
         }
 
+        public async Task<int> AssignAreaUser(int AreaId, List<Guid> guid)
+        {
+            foreach( var x in guid)
+            {
+                var areaUser = new AreaUser()
+                {
+                    AreaId = AreaId,
+                    UserId = x,
+                };
+                await _context.AreaUsers.AddAsync(areaUser);
+            }
+            return await _context.SaveChangesAsync();
+        }
+
         public async Task<int> CreateDistributorArea(int AreaId, DistributorCreateRequest request)
         {
             var distributor = new Distributor()
@@ -199,6 +222,18 @@ namespace Project.Application.Catalog.Area
                 _context.AreaUsers.Remove(areaUser);
             }
             return await _context.SaveChangesAsync();
+        }
+
+        public async Task<int> DeleteUDistributor(List<int> distributorId)
+        {
+            foreach( var x in distributorId)
+            {
+                var distributor = await _context.Distributors.FindAsync(x);
+                _context.Distributors.Remove(distributor);
+
+            }
+            return await _context.SaveChangesAsync();
+            
         }
     }
 }
