@@ -43,3 +43,8 @@ load model view based on dependent user
 - Create Resful API to manage areas, get all areas, get detail area with user view, get detail area with distributor view, add user account using areaId from query uri, add distributor from query uri, remove list users from area, remove list distributors from area
 - Create role functions to assign roles
 - Create visit planning functions: add new plan
+## 11/5 - 15/5: 
+- Create Resful API for plan's require function 
+- Configure database table Surveys reasonable
+- Create functions for Surveys, TaskDetails
+- Create API controller for Surveys
