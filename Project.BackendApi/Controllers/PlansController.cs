@@ -49,9 +49,9 @@ namespace Project.BackendApi.Controllers
         }
 
         [HttpPut("Request/{PlanId}")]
-        public async Task<IActionResult> ReplyVisitPlan(int PlanId, [FromForm] Status reply)
+        public async Task<IActionResult> ReplyVisitPlan(Guid invitedUser, int PlanId, [FromForm] RequestStatus reply)
         {
-            var plan = await _planService.ReplyVisitPlan(PlanId, reply);
+            var plan = await _planService.ReplyVisitPlan(invitedUser,PlanId, reply);
             if (plan != false)
             {
                 return Ok(plan);

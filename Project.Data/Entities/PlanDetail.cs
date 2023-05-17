@@ -7,13 +7,12 @@ using System.Threading.Tasks;
 
 namespace Project.Data.Entities
 {
-    public class Surveyed
+    public class PlanDetail
     {
         public int Id { get; set; }
-        public int SurveyId { get; set; }
-        public Guid PerformerId { get; set; }
-        public Status Status { get; set; }
-        public Survey Survey { get; set; }
-
+        public int PlanId { get; set; }
+        public Guid Invited { get; set; }
+        public RequestStatus Status { get; set; }
+        public Plan Plan { get; set; }
     }
 }

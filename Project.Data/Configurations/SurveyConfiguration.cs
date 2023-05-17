@@ -14,9 +14,10 @@ namespace Project.Data.Configurations
         public void Configure(EntityTypeBuilder<Survey> builder)
         {
             builder.ToTable("Surveys");
-            builder.HasKey(x => new { x.Id, x.UserCreate });
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.Id).UseIdentityColumn();
             builder.Property(x => x.Title).IsRequired().HasMaxLength(60);
-            builder.HasOne(x => x.AppUser).WithMany(c => c.Surveyes).HasForeignKey(c => c.UserCreate);
+            builder.Property(x => x.CreatedDate).HasDefaultValue(DateTime.Now);
         }
     }
 }

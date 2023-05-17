@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Project.Data.Enums
 {
-    public enum Status
+    public enum RequestStatus
     {
-        InActive,
-        Active,
+        Accept,
+        Ignore,
+        Unanswered
     }
 }

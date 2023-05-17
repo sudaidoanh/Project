@@ -24,18 +24,24 @@ namespace Project.Data.EF
             modelBuilder.ApplyConfiguration(new DistributorConfiguration());
             modelBuilder.ApplyConfiguration(new MediaTaskConfiguration());
             modelBuilder.ApplyConfiguration(new PlanConfiguration());
+            modelBuilder.ApplyConfiguration(new PlanTaskConfiguration());
+            modelBuilder.ApplyConfiguration(new PlanDetailConfiguration());
             modelBuilder.ApplyConfiguration(new TaskConfiguration());
             modelBuilder.ApplyConfiguration(new TaskDetailConfiguration());
             modelBuilder.ApplyConfiguration(new NotificationConfiguration());
             modelBuilder.ApplyConfiguration(new PostConfiguration());
             modelBuilder.ApplyConfiguration(new ReportConfiguration());
             modelBuilder.ApplyConfiguration(new SurveyConfiguration());
-            modelBuilder.ApplyConfiguration(new SurveyDetailConfiguration());
             modelBuilder.ApplyConfiguration(new SurveyedConfiguration());
+            modelBuilder.ApplyConfiguration(new QuestionnaireConfiguration());
+            modelBuilder.ApplyConfiguration(new QuestionnaireDetailConfiguration());
+            modelBuilder.ApplyConfiguration(new SubmitedSurveyedAnswerConfiguration());
+            modelBuilder.ApplyConfiguration(new QuestionnaireGroupConfiguration());
+            modelBuilder.ApplyConfiguration(new SubmitSurveyedConfiguration());
             modelBuilder.ApplyConfiguration(new SystemActivityConfiguration());
             modelBuilder.ApplyConfiguration(new UserImageConfiguration());
+            modelBuilder.ApplyConfiguration(new PostImageConfiguration());
 
-            modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
             modelBuilder.ApplyConfiguration(new AppUserConfiguration());
             modelBuilder.ApplyConfiguration(new AppRoleConfiguration());
 
@@ -52,9 +58,9 @@ namespace Project.Data.EF
 
         public DbSet<AppRole> AppRoles { get; set; }
         public DbSet<AppUser> AppUsers { get; set; }
-        public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<Distributor> Distributors { get; set; }
         public DbSet<UserImage> UserImages { get; set; }
+        public DbSet<PostImage> PostImages{ get; set; }
         public DbSet<Area> Areas { get; set; }
         public DbSet<Configuration> Configurations { get; set; }
         public DbSet<AreaDistributor> AreaDistributors { get; set; }
@@ -62,14 +68,20 @@ namespace Project.Data.EF
         public DbSet<SystemActivity> SystemActivities { get; set; }
         public DbSet<MediaTask> MediaTasks { get; set; }
         public DbSet<Plan> Plans { get; set; }
+        public DbSet<PlanDetail> PlanDetails { get; set; }
         public DbSet<Entities.Task> Tasks { get; set; }
+        public DbSet<PlanTask> PlanTasks { get; set; }
         public DbSet<TaskDetail> TaskDetails { get; set; }
         public DbSet<Report> Reports { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Surveyed> Surveyeds { get; set; }
         public DbSet<Survey> Surveys { get; set; }
-        public DbSet<SurveyDetail> SurveyDetails { get; set; }
+        public DbSet<SubmitedSurveyed> SubmitedSurveyeds { get; set; }
+        public DbSet<Questionnaire> Questionnaires { get; set; }
+        public DbSet<QuestionnaireDetail> QuestionnaireDetails { get; set; }
+        public DbSet<QuestionnaireGroup> QuestionnaireGroups { get; set; }
+        public DbSet<SubmitedSurveyedAnswer> SubmitedSurveyedAnswers { get; set; }
 
 
 

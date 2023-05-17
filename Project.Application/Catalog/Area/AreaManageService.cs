@@ -164,14 +164,15 @@ namespace Project.Application.Catalog.Area
                 PhoneNumber = request.Phone,
                 PasswordHash = hasher.HashPassword(null, request.Password),
                 SecurityStamp = "",
-                UserRoles = new List<UserRole>(){ new UserRole()
-                {
-                    RoleId = request.RoleId,
-                } },
                 AreaUser = new List<AreaUser> { new AreaUser()
                 {
                     AreaId = AreaId,
                 } }
+            };
+            var userRoles = new IdentityUserRole<Guid>()
+            {
+                UserId = account.Id,
+                RoleId = request.RoleId
             };
             await _context.AppUsers.AddAsync(account);
             await _context.SaveChangesAsync();

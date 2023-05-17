@@ -12,8 +12,10 @@ namespace Project.Data.Entities
         public String Title { get; set; }
         public Guid UserCreate { get; set; }
         public DateTime CreatedDate { get; set; }
-        public AppUser AppUser { get; set; }
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
         public List<Surveyed> Surveyeds { get;}
-        public List<SurveyDetail> SurveyDetails { get; }
+        public int QuestionnaireId { get; set; }
+
     }
 }

@@ -12,6 +12,7 @@ namespace Project.Data.Entities
         public int TaskId { get; set; }
         public String MediaType { get; set; }
         public String SrcFile { get; set; }
+        public int FileSize { get; set; }
         public DateTime CreatedDate { get; set; }
         public Task Task { get; set;}
 

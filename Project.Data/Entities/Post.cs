@@ -13,13 +13,11 @@ namespace Project.Data.Entities
         public int Id { get; set; }
         public Guid UserId { get; set; }
         public DateTime CreatedDate { get; set; }
-        public String Image { get; set; }
-        public String Title { get; set; }
-        public String Description { get; set; }
-        public String Header { get; set; }
-        public String Content { get; set; }
-        public Status Display { get; set; }
-        public AppUser AppUser { get; set; }
-
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string Hypertext { get; set; }
+        public string Content { get; set; }
+        public ArticleStatus Status { get; set; }
+        public List<PostImage> PostImages { get; set; }
     }
 }

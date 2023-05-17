@@ -12,7 +12,7 @@ namespace Project.Application.Catalog.Plan
     {
         Task<bool> CreateVisitPlan(PlanViewModel request);
         Task<List<PlanViewModel>> GetVisitPlan(Guid guid);
-        Task<bool> ReplyVisitPlan( int PlanId, Status reply);
+        Task<bool> ReplyVisitPlan(Guid InvitedUser, int planId, RequestStatus reply);
         Task<List<LoadDistributorRequest>> LoadListDistributor(string keyword);
         Task<List<LoadUserRequest>> LoadListUser(string keyword);
         Task<List<GetAskVisitRequest>> GetRequestPlan(Guid guid);

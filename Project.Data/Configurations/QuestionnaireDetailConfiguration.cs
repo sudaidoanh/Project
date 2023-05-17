@@ -9,15 +9,16 @@ using System.Threading.Tasks;
 
 namespace Project.Data.Configurations
 {
-    internal class SurveyDetailConfiguration : IEntityTypeConfiguration<SurveyDetail>
+    public class QuestionnaireDetailConfiguration : IEntityTypeConfiguration<QuestionnaireDetail>
     {
-        public void Configure(EntityTypeBuilder<SurveyDetail> builder)
+        public void Configure(EntityTypeBuilder<QuestionnaireDetail> builder)
         {
-            builder.ToTable("SurveyDetails");
-            builder.HasKey(x => new { x.Id, x.SurveyId });
+            builder.ToTable("QuestionnaireDetails");
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.Id).UseIdentityColumn();
             builder.Property(x => x.Question).IsRequired().HasMaxLength(100);
             builder.Property(x => x.Answers).IsRequired().HasMaxLength(300);
-
+            builder.Property(x => x.TypeAnswer).IsRequired();
         }
     }
 }

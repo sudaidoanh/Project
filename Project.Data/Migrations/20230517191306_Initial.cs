@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Project.Data.Migrations
 {
     /// <inheritdoc />
@@ -93,7 +95,6 @@ namespace Project.Data.Migrations
                     Address = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
                     FullName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     Status = table.Column<int>(type: "int", maxLength: 20, nullable: false),
-                    Image = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -135,7 +136,7 @@ namespace Project.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Code = table.Column<int>(type: "int", nullable: false)
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -156,6 +157,135 @@ namespace Project.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Distributors", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Posts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Hypertext = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Posts", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "QuestionnaireDetails",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    QuestionnaireId = table.Column<int>(type: "int", nullable: false),
+                    Question = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Answers = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
+                    TypeAnswer = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuestionnaireDetails", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "QuestionnaireGroups",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuestionnaireGroups", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Questionnaires",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    UserCreated = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    GroupId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Questionnaires", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SubmitedSurveyeds",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PerformerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SurveyedId = table.Column<int>(type: "int", nullable: false),
+                    QuestionnaireDetailId = table.Column<int>(type: "int", nullable: false),
+                    Answer = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SubmitedSurveyeds", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Surveys",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
+                    UserCreate = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2023, 5, 18, 2, 13, 6, 204, DateTimeKind.Local).AddTicks(4319)),
+                    FromDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ToDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    QuestionnaireId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Surveys", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tasks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserAskTaskId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tasks", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserRoles",
+                columns: table => new
+                {
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserRoles", x => new { x.UserId, x.RoleId });
                 });
 
             migrationBuilder.CreateTable(
@@ -182,31 +312,6 @@ namespace Project.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Posts",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Header = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Display = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Posts", x => new { x.Id, x.UserId });
-                    table.ForeignKey(
-                        name: "FK_Posts_AppUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AppUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Reports",
                 columns: table => new
                 {
@@ -221,26 +326,6 @@ namespace Project.Data.Migrations
                     table.ForeignKey(
                         name: "FK_Reports_AppUsers_Manager",
                         column: x => x.Manager,
-                        principalTable: "AppUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Surveys",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    UserCreate = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Surveys", x => new { x.Id, x.UserCreate });
-                    table.ForeignKey(
-                        name: "FK_Surveys_AppUsers_UserCreate",
-                        column: x => x.UserCreate,
                         principalTable: "AppUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -269,48 +354,23 @@ namespace Project.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tasks",
+                name: "UserImages",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserAskTaskId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PlanId = table.Column<int>(type: "int", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Deadline = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tasks", x => new { x.Id, x.UserAskTaskId });
-                    table.ForeignKey(
-                        name: "FK_Tasks_AppUsers_UserAskTaskId",
-                        column: x => x.UserAskTaskId,
-                        principalTable: "AppUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserRoles",
-                columns: table => new
-                {
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ImagePath = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    CurrentSet = table.Column<bool>(type: "bit", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SortOder = table.Column<int>(type: "int", nullable: false),
+                    FileSize = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserRoles", x => new { x.UserId, x.RoleId });
+                    table.PrimaryKey("PK_UserImages", x => new { x.Id, x.UserId });
                     table.ForeignKey(
-                        name: "FK_UserRoles_AppRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AppRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserRoles_AppUsers_UserId",
+                        name: "FK_UserImages_AppUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AppUsers",
                         principalColumn: "Id",
@@ -371,26 +431,18 @@ namespace Project.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Invited = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DistributorId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
+                    Title = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
                     TypeDate = table.Column<string>(type: "varchar(20)", unicode: false, maxLength: 20, nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TypeUser = table.Column<string>(type: "varchar(30)", unicode: false, maxLength: 30, nullable: false),
-                    FromDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<int>(type: "int", maxLength: 10, nullable: false)
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Calendar = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Purpose = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
+                    DistributorId = table.Column<int>(type: "int", nullable: false),
+                    PlanStatus = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Plans", x => new { x.Id, x.UserId, x.DistributorId, x.Invited });
-                    table.ForeignKey(
-                        name: "FK_Plans_AppUsers_Invited",
-                        column: x => x.Invited,
-                        principalTable: "AppUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_Plans", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Plans_Distributors_DistributorId",
                         column: x => x.DistributorId,
@@ -400,49 +452,73 @@ namespace Project.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SurveyDetails",
+                name: "PostImages",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    SurveyId = table.Column<int>(type: "int", nullable: false),
-                    Question = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Answers = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
-                    SurveyUserCreate = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PostId = table.Column<int>(type: "int", nullable: false),
+                    ImagePath = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    CurrentSet = table.Column<bool>(type: "bit", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SortOder = table.Column<int>(type: "int", nullable: false),
+                    FileSize = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SurveyDetails", x => new { x.Id, x.SurveyId });
+                    table.PrimaryKey("PK_PostImages", x => new { x.Id, x.PostId });
                     table.ForeignKey(
-                        name: "FK_SurveyDetails_Surveys_SurveyId_SurveyUserCreate",
-                        columns: x => new { x.SurveyId, x.SurveyUserCreate },
-                        principalTable: "Surveys",
-                        principalColumns: new[] { "Id", "UserCreate" });
+                        name: "FK_PostImages_Posts_PostId",
+                        column: x => x.PostId,
+                        principalTable: "Posts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SubmitedSurveyedAnswers",
+                columns: table => new
+                {
+                    SubmitedSurveyedId = table.Column<int>(type: "int", nullable: false),
+                    QuestionnaireDetailId = table.Column<int>(type: "int", nullable: false),
+                    Answer = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SubmitedSurveyedAnswers", x => new { x.SubmitedSurveyedId, x.QuestionnaireDetailId });
+                    table.ForeignKey(
+                        name: "FK_SubmitedSurveyedAnswers_QuestionnaireDetails_QuestionnaireDetailId",
+                        column: x => x.QuestionnaireDetailId,
+                        principalTable: "QuestionnaireDetails",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SubmitedSurveyedAnswers_SubmitedSurveyeds_SubmitedSurveyedId",
+                        column: x => x.SubmitedSurveyedId,
+                        principalTable: "SubmitedSurveyeds",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Surveyeds",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     SurveyId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Status = table.Column<int>(type: "int", maxLength: 20, nullable: false),
-                    SurveyUserCreate = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    PerformerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Status = table.Column<int>(type: "int", maxLength: 20, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Surveyeds", x => new { x.Id, x.SurveyId, x.UserId });
+                    table.PrimaryKey("PK_Surveyeds", x => new { x.Id, x.SurveyId });
                     table.ForeignKey(
-                        name: "FK_Surveyeds_AppUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AppUsers",
+                        name: "FK_Surveyeds_Surveys_SurveyId",
+                        column: x => x.SurveyId,
+                        principalTable: "Surveys",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Surveyeds_Surveys_SurveyId_SurveyUserCreate",
-                        columns: x => new { x.SurveyId, x.SurveyUserCreate },
-                        principalTable: "Surveys",
-                        principalColumns: new[] { "Id", "UserCreate" });
                 });
 
             migrationBuilder.CreateTable(
@@ -454,17 +530,17 @@ namespace Project.Data.Migrations
                     TaskId = table.Column<int>(type: "int", nullable: false),
                     MediaType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SrcFile = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TaskUserAskTaskId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    FileSize = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MediaTasks", x => new { x.Id, x.TaskId });
                     table.ForeignKey(
-                        name: "FK_MediaTasks_Tasks_TaskId_TaskUserAskTaskId",
-                        columns: x => new { x.TaskId, x.TaskUserAskTaskId },
+                        name: "FK_MediaTasks_Tasks_TaskId",
+                        column: x => x.TaskId,
                         principalTable: "Tasks",
-                        principalColumns: new[] { "Id", "UserAskTaskId" },
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -474,45 +550,127 @@ namespace Project.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserComment = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IdTask = table.Column<int>(type: "int", nullable: true),
+                    IdTask = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Rating = table.Column<int>(type: "int", nullable: false),
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TaskId = table.Column<int>(type: "int", nullable: true),
-                    TaskUserAskTaskId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    UserComment = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TaskDetails", x => new { x.Id, x.UserComment });
+                    table.PrimaryKey("PK_TaskDetails", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TaskDetails_AppUsers_UserComment",
-                        column: x => x.UserComment,
-                        principalTable: "AppUsers",
+                        name: "FK_TaskDetails_Tasks_IdTask",
+                        column: x => x.IdTask,
+                        principalTable: "Tasks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PlanDetails",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    PlanId = table.Column<int>(type: "int", nullable: false),
+                    Invited = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PlanDetails", x => new { x.Id, x.PlanId });
+                    table.ForeignKey(
+                        name: "FK_PlanDetails_Plans_PlanId",
+                        column: x => x.PlanId,
+                        principalTable: "Plans",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PlanTasks",
+                columns: table => new
+                {
+                    PlanId = table.Column<int>(type: "int", nullable: false),
+                    TaskId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PlanTasks", x => new { x.PlanId, x.TaskId });
+                    table.ForeignKey(
+                        name: "FK_PlanTasks_Plans_PlanId",
+                        column: x => x.PlanId,
+                        principalTable: "Plans",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TaskDetails_Tasks_TaskId_TaskUserAskTaskId",
-                        columns: x => new { x.TaskId, x.TaskUserAskTaskId },
+                        name: "FK_PlanTasks_Tasks_TaskId",
+                        column: x => x.TaskId,
                         principalTable: "Tasks",
-                        principalColumns: new[] { "Id", "UserAskTaskId" });
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
                 table: "AppRoles",
                 columns: new[] { "Id", "Action", "ConcurrencyStamp", "Description", "Manage", "Name", "NormalizedName" },
-                values: new object[] { new Guid("6755b85d-9886-4e98-89df-fe320e6febd7"), "Admin", "5fd14ae5-4155-4cb1-88af-a0b2e2829186", "Adminstrator Role", 0, "admin", "admin" });
+                values: new object[,]
+                {
+                    { new Guid("240e615a-2fa4-468a-8728-c3c9c7d3db58"), "Guest", "be32ed3d-10c5-432b-85eb-899044816966", "Guest Role", 0, "Owner", "Guest" },
+                    { new Guid("6755b85d-9886-4e98-89df-fe320e6febd7"), "Adminstrator", "1118e349-dffd-4d06-8e60-ce31f381a50c", "Adminstrator Role", 0, "Adminstrator", "Adminstrator" },
+                    { new Guid("bed15c1f-b73a-4301-97b8-65fb4f54d1a0"), "Owner", "00b8c66e-263b-47bc-8930-c06f8cc618ef", "Manage all the system setting, include the user permission.", 0, "Owner", "Adminstrator" }
+                });
 
             migrationBuilder.InsertData(
                 table: "AppUsers",
-                columns: new[] { "Id", "AccessFailedCount", "Address", "ConcurrencyStamp", "Email", "EmailConfirmed", "FullName", "Image", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "Status", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("d49cad19-8d64-44fe-88ad-3e98fc3376ec"), 0, "Ho Chi Minh City", "c78488c2-0456-4424-a783-d7484bdca7f6", "sudaidoanh@gmail.com", true, "admin", 0, false, null, "sudaidoanh@gmail.com", "admin", "AQAAAAEAACcQAAAAEBbOCkssu8UuDOMt4s6mE9e2HuNm3uIVlwjRixJhybQkfT0UfkcqtFuRl5xRUuAjVA==", null, false, "", 0, false, "admin" });
+                columns: new[] { "Id", "AccessFailedCount", "Address", "ConcurrencyStamp", "Email", "EmailConfirmed", "FullName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "Status", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { new Guid("0d80c014-4959-4d4d-b699-8c10192afc15"), 10, "Dong Ha Quang Tri", "dee5a0b2-0faf-41cc-81b8-daf9aca0ffba", "sudaidoanh@gmail.com", true, "Su Dai Doanh", false, null, "sudaidoanh@gmail.com", "doanh", "AQAAAAEAACcQAAAAEJ7+SZnp8DFHatizhNqwO0c3bcxWfCH5Hf2gr5jYAaEXGr7NekbTQdod9ViAuq5GqA==", "0967145696", true, "", 1, false, "doanh" },
+                    { new Guid("d49cad19-8d64-44fe-88ad-3e98fc3376ec"), 10, "Ho Chi Minh City", "064cd95c-9f13-45af-a914-48521d9d8213", "admin@domain.com", true, "Adminstrator", false, null, "admin@domain.com", "admin", "AQAAAAEAACcQAAAAEIx+W8G2ANN7i3RGNFoexEZlAqiGfEw15m5hmzMVcKXGKtMXfHunXf/mFscLV5S2+Q==", "1234567890", true, "", 1, false, "admin" },
+                    { new Guid("deabd869-b037-48f5-9201-052f23f01ca8"), 10, "Ho Chi Minh City", "328e36ac-98b0-4e71-bbe0-e74c0f8c2bad", "owner@domain.com", true, "Owner", false, null, "owner@domain.com", "owner", "AQAAAAEAACcQAAAAEEbU6Vy1RPkhkUH9V+iymp0gGm1B6Vmict8mMIbAdircCkWIEAEfUoz0OKAn2TS1wg==", "0122222222", true, "", 1, false, "onwer" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Areas",
+                columns: new[] { "Id", "Code", "Name" },
+                values: new object[,]
+                {
+                    { 1, "COD1", "Area 1" },
+                    { 2, "COD2", "Area 2" },
+                    { 3, "COD3", "Area 3" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Distributors",
+                columns: new[] { "Id", "Address", "Email", "Name", "Phone" },
+                values: new object[] { 1, "154 Hoa Binh, Hiep Tan, Tan Phu", "email1@domain.com", "Distributor 1", "0938387228" });
 
             migrationBuilder.InsertData(
                 table: "UserRoles",
-                columns: new[] { "RoleId", "UserId", "Discriminator" },
-                values: new object[] { new Guid("6755b85d-9886-4e98-89df-fe320e6febd7"), new Guid("d49cad19-8d64-44fe-88ad-3e98fc3376ec"), "IdentityUserRole<Guid>" });
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[,]
+                {
+                    { new Guid("240e615a-2fa4-468a-8728-c3c9c7d3db58"), new Guid("0d80c014-4959-4d4d-b699-8c10192afc15") },
+                    { new Guid("6755b85d-9886-4e98-89df-fe320e6febd7"), new Guid("d49cad19-8d64-44fe-88ad-3e98fc3376ec") },
+                    { new Guid("bed15c1f-b73a-4301-97b8-65fb4f54d1a0"), new Guid("deabd869-b037-48f5-9201-052f23f01ca8") }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AreaDistributors",
+                columns: new[] { "AreaId", "DistributorId" },
+                values: new object[] { 1, 1 });
+
+            migrationBuilder.InsertData(
+                table: "AreaUsers",
+                columns: new[] { "AreaId", "UserId" },
+                values: new object[,]
+                {
+                    { 1, new Guid("d49cad19-8d64-44fe-88ad-3e98fc3376ec") },
+                    { 1, new Guid("deabd869-b037-48f5-9201-052f23f01ca8") },
+                    { 3, new Guid("0d80c014-4959-4d4d-b699-8c10192afc15") }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AreaDistributors_DistributorId",
@@ -525,9 +683,9 @@ namespace Project.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MediaTasks_TaskId_TaskUserAskTaskId",
+                name: "IX_MediaTasks_TaskId",
                 table: "MediaTasks",
-                columns: new[] { "TaskId", "TaskUserAskTaskId" });
+                column: "TaskId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Notifications_SenderId",
@@ -535,19 +693,24 @@ namespace Project.Data.Migrations
                 column: "SenderId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PlanDetails_PlanId",
+                table: "PlanDetails",
+                column: "PlanId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Plans_DistributorId",
                 table: "Plans",
                 column: "DistributorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Plans_Invited",
-                table: "Plans",
-                column: "Invited");
+                name: "IX_PlanTasks_TaskId",
+                table: "PlanTasks",
+                column: "TaskId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Posts_UserId",
-                table: "Posts",
-                column: "UserId");
+                name: "IX_PostImages_PostId",
+                table: "PostImages",
+                column: "PostId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reports_Manager",
@@ -555,24 +718,14 @@ namespace Project.Data.Migrations
                 column: "Manager");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SurveyDetails_SurveyId_SurveyUserCreate",
-                table: "SurveyDetails",
-                columns: new[] { "SurveyId", "SurveyUserCreate" });
+                name: "IX_SubmitedSurveyedAnswers_QuestionnaireDetailId",
+                table: "SubmitedSurveyedAnswers",
+                column: "QuestionnaireDetailId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Surveyeds_SurveyId_SurveyUserCreate",
+                name: "IX_Surveyeds_SurveyId",
                 table: "Surveyeds",
-                columns: new[] { "SurveyId", "SurveyUserCreate" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Surveyeds_UserId",
-                table: "Surveyeds",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Surveys_UserCreate",
-                table: "Surveys",
-                column: "UserCreate");
+                column: "SurveyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SystemActivities_UserId",
@@ -580,24 +733,14 @@ namespace Project.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TaskDetails_TaskId_TaskUserAskTaskId",
+                name: "IX_TaskDetails_IdTask",
                 table: "TaskDetails",
-                columns: new[] { "TaskId", "TaskUserAskTaskId" });
+                column: "IdTask");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TaskDetails_UserComment",
-                table: "TaskDetails",
-                column: "UserComment");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tasks_UserAskTaskId",
-                table: "Tasks",
-                column: "UserAskTaskId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserRoles_RoleId",
-                table: "UserRoles",
-                column: "RoleId");
+                name: "IX_UserImages_UserId",
+                table: "UserImages",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -608,6 +751,9 @@ namespace Project.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AppRoleClaims");
+
+            migrationBuilder.DropTable(
+                name: "AppRoles");
 
             migrationBuilder.DropTable(
                 name: "AppUserClaims");
@@ -631,16 +777,25 @@ namespace Project.Data.Migrations
                 name: "Notifications");
 
             migrationBuilder.DropTable(
-                name: "Plans");
+                name: "PlanDetails");
 
             migrationBuilder.DropTable(
-                name: "Posts");
+                name: "PlanTasks");
+
+            migrationBuilder.DropTable(
+                name: "PostImages");
+
+            migrationBuilder.DropTable(
+                name: "QuestionnaireGroups");
+
+            migrationBuilder.DropTable(
+                name: "Questionnaires");
 
             migrationBuilder.DropTable(
                 name: "Reports");
 
             migrationBuilder.DropTable(
-                name: "SurveyDetails");
+                name: "SubmitedSurveyedAnswers");
 
             migrationBuilder.DropTable(
                 name: "Surveyeds");
@@ -652,13 +807,25 @@ namespace Project.Data.Migrations
                 name: "TaskDetails");
 
             migrationBuilder.DropTable(
+                name: "UserImages");
+
+            migrationBuilder.DropTable(
                 name: "UserRoles");
 
             migrationBuilder.DropTable(
                 name: "Areas");
 
             migrationBuilder.DropTable(
-                name: "Distributors");
+                name: "Plans");
+
+            migrationBuilder.DropTable(
+                name: "Posts");
+
+            migrationBuilder.DropTable(
+                name: "QuestionnaireDetails");
+
+            migrationBuilder.DropTable(
+                name: "SubmitedSurveyeds");
 
             migrationBuilder.DropTable(
                 name: "Surveys");
@@ -667,10 +834,10 @@ namespace Project.Data.Migrations
                 name: "Tasks");
 
             migrationBuilder.DropTable(
-                name: "AppRoles");
+                name: "AppUsers");
 
             migrationBuilder.DropTable(
-                name: "AppUsers");
+                name: "Distributors");
         }
     }
 }

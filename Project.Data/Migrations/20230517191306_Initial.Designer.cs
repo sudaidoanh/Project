@@ -12,8 +12,8 @@ using Project.Data.EF;
 namespace Project.Data.Migrations
 {
     [DbContext(typeof(ProjectDbContext))]
-    [Migration("20230503212127_AreaSeedData")]
-    partial class AreaSeedData
+    [Migration("20230517191306_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -97,23 +97,25 @@ namespace Project.Data.Migrations
                     b.Property<Guid>("RoleId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("UserId", "RoleId");
 
                     b.ToTable("UserRoles", (string)null);
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUserRole<Guid>");
-
-                    b.UseTphMappingStrategy();
 
                     b.HasData(
                         new
                         {
                             UserId = new Guid("d49cad19-8d64-44fe-88ad-3e98fc3376ec"),
                             RoleId = new Guid("6755b85d-9886-4e98-89df-fe320e6febd7")
+                        },
+                        new
+                        {
+                            UserId = new Guid("deabd869-b037-48f5-9201-052f23f01ca8"),
+                            RoleId = new Guid("bed15c1f-b73a-4301-97b8-65fb4f54d1a0")
+                        },
+                        new
+                        {
+                            UserId = new Guid("0d80c014-4959-4d4d-b699-8c10192afc15"),
+                            RoleId = new Guid("240e615a-2fa4-468a-8728-c3c9c7d3db58")
                         });
                 });
 
@@ -173,12 +175,32 @@ namespace Project.Data.Migrations
                         new
                         {
                             Id = new Guid("6755b85d-9886-4e98-89df-fe320e6febd7"),
-                            Action = "Admin",
-                            ConcurrencyStamp = "e0eaf2c1-63ee-4be2-8378-da60a761cbba",
+                            Action = "Adminstrator",
+                            ConcurrencyStamp = "1118e349-dffd-4d06-8e60-ce31f381a50c",
                             Description = "Adminstrator Role",
                             Manage = 0,
-                            Name = "admin",
-                            NormalizedName = "admin"
+                            Name = "Adminstrator",
+                            NormalizedName = "Adminstrator"
+                        },
+                        new
+                        {
+                            Id = new Guid("bed15c1f-b73a-4301-97b8-65fb4f54d1a0"),
+                            Action = "Owner",
+                            ConcurrencyStamp = "00b8c66e-263b-47bc-8930-c06f8cc618ef",
+                            Description = "Manage all the system setting, include the user permission.",
+                            Manage = 0,
+                            Name = "Owner",
+                            NormalizedName = "Adminstrator"
+                        },
+                        new
+                        {
+                            Id = new Guid("240e615a-2fa4-468a-8728-c3c9c7d3db58"),
+                            Action = "Guest",
+                            ConcurrencyStamp = "be32ed3d-10c5-432b-85eb-899044816966",
+                            Description = "Guest Role",
+                            Manage = 0,
+                            Name = "Owner",
+                            NormalizedName = "Guest"
                         });
                 });
 
@@ -209,9 +231,6 @@ namespace Project.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
-
-                    b.Property<int>("Image")
-                        .HasColumnType("int");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -255,22 +274,62 @@ namespace Project.Data.Migrations
                         new
                         {
                             Id = new Guid("d49cad19-8d64-44fe-88ad-3e98fc3376ec"),
-                            AccessFailedCount = 0,
+                            AccessFailedCount = 10,
                             Address = "Ho Chi Minh City",
-                            ConcurrencyStamp = "da61b2ee-f07d-4787-92e5-9806433bba26",
-                            Email = "sudaidoanh@gmail.com",
+                            ConcurrencyStamp = "064cd95c-9f13-45af-a914-48521d9d8213",
+                            Email = "admin@domain.com",
                             EmailConfirmed = true,
-                            FullName = "admin",
-                            Image = 0,
+                            FullName = "Adminstrator",
                             LockoutEnabled = false,
-                            NormalizedEmail = "sudaidoanh@gmail.com",
+                            NormalizedEmail = "admin@domain.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEE6upT1YhReR0M+/xPvnvl5z82xDWkJ1rTRLbOjuccDpWqZwy/gze1bGKeTUvNIbjA==",
-                            PhoneNumberConfirmed = false,
+                            PasswordHash = "AQAAAAEAACcQAAAAEIx+W8G2ANN7i3RGNFoexEZlAqiGfEw15m5hmzMVcKXGKtMXfHunXf/mFscLV5S2+Q==",
+                            PhoneNumber = "1234567890",
+                            PhoneNumberConfirmed = true,
                             SecurityStamp = "",
-                            Status = 0,
+                            Status = 1,
                             TwoFactorEnabled = false,
                             UserName = "admin"
+                        },
+                        new
+                        {
+                            Id = new Guid("deabd869-b037-48f5-9201-052f23f01ca8"),
+                            AccessFailedCount = 10,
+                            Address = "Ho Chi Minh City",
+                            ConcurrencyStamp = "328e36ac-98b0-4e71-bbe0-e74c0f8c2bad",
+                            Email = "owner@domain.com",
+                            EmailConfirmed = true,
+                            FullName = "Owner",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "owner@domain.com",
+                            NormalizedUserName = "owner",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEbU6Vy1RPkhkUH9V+iymp0gGm1B6Vmict8mMIbAdircCkWIEAEfUoz0OKAn2TS1wg==",
+                            PhoneNumber = "0122222222",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "",
+                            Status = 1,
+                            TwoFactorEnabled = false,
+                            UserName = "onwer"
+                        },
+                        new
+                        {
+                            Id = new Guid("0d80c014-4959-4d4d-b699-8c10192afc15"),
+                            AccessFailedCount = 10,
+                            Address = "Dong Ha Quang Tri",
+                            ConcurrencyStamp = "dee5a0b2-0faf-41cc-81b8-daf9aca0ffba",
+                            Email = "sudaidoanh@gmail.com",
+                            EmailConfirmed = true,
+                            FullName = "Su Dai Doanh",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "sudaidoanh@gmail.com",
+                            NormalizedUserName = "doanh",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJ7+SZnp8DFHatizhNqwO0c3bcxWfCH5Hf2gr5jYAaEXGr7NekbTQdod9ViAuq5GqA==",
+                            PhoneNumber = "0967145696",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "",
+                            Status = 1,
+                            TwoFactorEnabled = false,
+                            UserName = "doanh"
                         });
                 });
 
@@ -298,8 +357,20 @@ namespace Project.Data.Migrations
                         new
                         {
                             Id = 1,
-                            Code = "CD01",
+                            Code = "COD1",
                             Name = "Area 1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Code = "COD2",
+                            Name = "Area 2"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Code = "COD3",
+                            Name = "Area 3"
                         });
                 });
 
@@ -316,6 +387,13 @@ namespace Project.Data.Migrations
                     b.HasIndex("DistributorId");
 
                     b.ToTable("AreaDistributors", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            AreaId = 1,
+                            DistributorId = 1
+                        });
                 });
 
             modelBuilder.Entity("Project.Data.Entities.AreaUser", b =>
@@ -337,6 +415,16 @@ namespace Project.Data.Migrations
                         {
                             AreaId = 1,
                             UserId = new Guid("d49cad19-8d64-44fe-88ad-3e98fc3376ec")
+                        },
+                        new
+                        {
+                            AreaId = 1,
+                            UserId = new Guid("deabd869-b037-48f5-9201-052f23f01ca8")
+                        },
+                        new
+                        {
+                            AreaId = 3,
+                            UserId = new Guid("0d80c014-4959-4d4d-b699-8c10192afc15")
                         });
                 });
 
@@ -383,11 +471,22 @@ namespace Project.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Distributors", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "154 Hoa Binh, Hiep Tan, Tan Phu",
+                            Email = "email1@domain.com",
+                            Name = "Distributor 1",
+                            Phone = "0938387228"
+                        });
                 });
 
             modelBuilder.Entity("Project.Data.Entities.MediaTask", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
@@ -398,6 +497,9 @@ namespace Project.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("FileSize")
+                        .HasColumnType("int");
+
                     b.Property<string>("MediaType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -406,12 +508,9 @@ namespace Project.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("TaskUserAskTaskId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id", "TaskId");
 
-                    b.HasIndex("TaskId", "TaskUserAskTaskId");
+                    b.HasIndex("TaskId");
 
                     b.ToTable("MediaTasks", (string)null);
                 });
@@ -454,37 +553,34 @@ namespace Project.Data.Migrations
             modelBuilder.Entity("Project.Data.Entities.Plan", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("DistributorId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("Invited")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<DateTime>("Calendar")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("DistributorId")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("FromDate")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("PlanStatus")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Purpose")
                         .IsRequired()
                         .HasMaxLength(100)
                         .IsUnicode(false)
                         .HasColumnType("varchar(100)");
 
-                    b.Property<int>("Status")
-                        .HasMaxLength(10)
-                        .HasColumnType("int");
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("TypeDate")
                         .IsRequired()
@@ -492,28 +588,59 @@ namespace Project.Data.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(20)");
 
-                    b.Property<string>("TypeUser")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(30)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id", "UserId", "DistributorId", "Invited");
+                    b.HasKey("Id");
 
                     b.HasIndex("DistributorId");
 
-                    b.HasIndex("Invited");
-
                     b.ToTable("Plans", (string)null);
+                });
+
+            modelBuilder.Entity("Project.Data.Entities.PlanDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PlanId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("Invited")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id", "PlanId");
+
+                    b.HasIndex("PlanId");
+
+                    b.ToTable("PlanDetails", (string)null);
+                });
+
+            modelBuilder.Entity("Project.Data.Entities.PlanTask", b =>
+                {
+                    b.Property<int>("PlanId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TaskId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PlanId", "TaskId");
+
+                    b.HasIndex("TaskId");
+
+                    b.ToTable("PlanTasks", (string)null);
                 });
 
             modelBuilder.Entity("Project.Data.Entities.Post", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -528,28 +655,135 @@ namespace Project.Data.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<int>("Display")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Header")
+                    b.Property<string>("Hypertext")
                         .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("nvarchar(60)");
 
-                    b.Property<string>("Image")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("nvarchar(60)");
 
-                    b.HasKey("Id", "UserId");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasIndex("UserId");
+                    b.HasKey("Id");
 
                     b.ToTable("Posts", (string)null);
+                });
+
+            modelBuilder.Entity("Project.Data.Entities.PostImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("CurrentSet")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("FileSize")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<int>("SortOder")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id", "PostId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("PostImages", (string)null);
+                });
+
+            modelBuilder.Entity("Project.Data.Entities.Questionnaire", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("GroupId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<Guid>("UserCreated")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Questionnaires", (string)null);
+                });
+
+            modelBuilder.Entity("Project.Data.Entities.QuestionnaireDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Answers")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("Question")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("QuestionnaireId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TypeAnswer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("QuestionnaireDetails", (string)null);
+                });
+
+            modelBuilder.Entity("Project.Data.Entities.QuestionnaireGroup", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("QuestionnaireGroups", (string)null);
                 });
 
             modelBuilder.Entity("Project.Data.Entities.Report", b =>
@@ -574,80 +808,107 @@ namespace Project.Data.Migrations
                     b.ToTable("Reports", (string)null);
                 });
 
+            modelBuilder.Entity("Project.Data.Entities.SubmitedSurveyed", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Answer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("PerformerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("QuestionnaireDetailId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SurveyedId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SubmitedSurveyeds", (string)null);
+                });
+
+            modelBuilder.Entity("Project.Data.Entities.SubmitedSurveyedAnswer", b =>
+                {
+                    b.Property<int>("SubmitedSurveyedId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuestionnaireDetailId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Answer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("SubmitedSurveyedId", "QuestionnaireDetailId");
+
+                    b.HasIndex("QuestionnaireDetailId");
+
+                    b.ToTable("SubmitedSurveyedAnswers", (string)null);
+                });
+
             modelBuilder.Entity("Project.Data.Entities.Survey", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<Guid>("UserCreate")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2023, 5, 18, 2, 13, 6, 204, DateTimeKind.Local).AddTicks(4319));
+
+                    b.Property<DateTime>("FromDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("QuestionnaireId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("nvarchar(60)");
 
-                    b.HasKey("Id", "UserCreate");
+                    b.Property<DateTime>("ToDate")
+                        .HasColumnType("datetime2");
 
-                    b.HasIndex("UserCreate");
-
-                    b.ToTable("Surveys", (string)null);
-                });
-
-            modelBuilder.Entity("Project.Data.Entities.SurveyDetail", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("SurveyId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Answers")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
-
-                    b.Property<string>("Question")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<Guid?>("SurveyUserCreate")
+                    b.Property<Guid>("UserCreate")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id", "SurveyId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("SurveyId", "SurveyUserCreate");
-
-                    b.ToTable("SurveyDetails", (string)null);
+                    b.ToTable("Surveys", (string)null);
                 });
 
             modelBuilder.Entity("Project.Data.Entities.Surveyed", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("SurveyId")
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("SurveyId")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid>("PerformerId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Status")
                         .HasMaxLength(20)
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("SurveyUserCreate")
-                        .HasColumnType("uniqueidentifier");
+                    b.HasKey("Id", "SurveyId");
 
-                    b.HasKey("Id", "SurveyId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("SurveyId", "SurveyUserCreate");
+                    b.HasIndex("SurveyId");
 
                     b.ToTable("Surveyeds", (string)null);
                 });
@@ -693,19 +954,16 @@ namespace Project.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<Guid>("UserAskTaskId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("Content")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
-                    b.Property<DateTime>("Deadline")
+                    b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("PlanId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -715,9 +973,13 @@ namespace Project.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("Id", "UserAskTaskId");
+                    b.Property<Guid>("UserAskTaskId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasIndex("UserAskTaskId");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
 
                     b.ToTable("Tasks", (string)null);
                 });
@@ -730,9 +992,6 @@ namespace Project.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<Guid>("UserComment")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Comment")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -741,7 +1000,7 @@ namespace Project.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("IdTask")
+                    b.Property<int>("IdTask")
                         .HasColumnType("int");
 
                     b.Property<int>("Rating")
@@ -750,17 +1009,12 @@ namespace Project.Data.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TaskId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("TaskUserAskTaskId")
+                    b.Property<Guid>("UserComment")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id", "UserComment");
+                    b.HasKey("Id");
 
-                    b.HasIndex("UserComment");
-
-                    b.HasIndex("TaskId", "TaskUserAskTaskId");
+                    b.HasIndex("IdTask");
 
                     b.ToTable("TaskDetails", (string)null);
                 });
@@ -798,15 +1052,6 @@ namespace Project.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserImages", (string)null);
-                });
-
-            modelBuilder.Entity("Project.Data.Entities.AppUserRole", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>");
-
-                    b.HasIndex("RoleId");
-
-                    b.HasDiscriminator().HasValue("AppUserRole");
                 });
 
             modelBuilder.Entity("Project.Data.Entities.AreaDistributor", b =>
@@ -851,7 +1096,7 @@ namespace Project.Data.Migrations
                 {
                     b.HasOne("Project.Data.Entities.Task", "Task")
                         .WithMany("MediaTasks")
-                        .HasForeignKey("TaskId", "TaskUserAskTaskId")
+                        .HasForeignKey("TaskId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -871,32 +1116,52 @@ namespace Project.Data.Migrations
 
             modelBuilder.Entity("Project.Data.Entities.Plan", b =>
                 {
-                    b.HasOne("Project.Data.Entities.Distributor", "Distributor")
+                    b.HasOne("Project.Data.Entities.Distributor", null)
                         .WithMany("Plans")
                         .HasForeignKey("DistributorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Project.Data.Entities.AppUser", "AppUser")
-                        .WithMany("Plans")
-                        .HasForeignKey("Invited")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppUser");
-
-                    b.Navigation("Distributor");
                 });
 
-            modelBuilder.Entity("Project.Data.Entities.Post", b =>
+            modelBuilder.Entity("Project.Data.Entities.PlanDetail", b =>
                 {
-                    b.HasOne("Project.Data.Entities.AppUser", "AppUser")
-                        .WithMany("Posts")
-                        .HasForeignKey("UserId")
+                    b.HasOne("Project.Data.Entities.Plan", "Plan")
+                        .WithMany("PlanDetails")
+                        .HasForeignKey("PlanId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AppUser");
+                    b.Navigation("Plan");
+                });
+
+            modelBuilder.Entity("Project.Data.Entities.PlanTask", b =>
+                {
+                    b.HasOne("Project.Data.Entities.Plan", "Plan")
+                        .WithMany("PlanTasks")
+                        .HasForeignKey("PlanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Project.Data.Entities.Task", "Task")
+                        .WithMany("PlanTasks")
+                        .HasForeignKey("TaskId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Plan");
+
+                    b.Navigation("Task");
+                });
+
+            modelBuilder.Entity("Project.Data.Entities.PostImage", b =>
+                {
+                    b.HasOne("Project.Data.Entities.Post", "Post")
+                        .WithMany("PostImages")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
                 });
 
             modelBuilder.Entity("Project.Data.Entities.Report", b =>
@@ -910,39 +1175,32 @@ namespace Project.Data.Migrations
                     b.Navigation("AppUser");
                 });
 
-            modelBuilder.Entity("Project.Data.Entities.Survey", b =>
+            modelBuilder.Entity("Project.Data.Entities.SubmitedSurveyedAnswer", b =>
                 {
-                    b.HasOne("Project.Data.Entities.AppUser", "AppUser")
-                        .WithMany("Surveyes")
-                        .HasForeignKey("UserCreate")
+                    b.HasOne("Project.Data.Entities.QuestionnaireDetail", "QuestionnaireDetail")
+                        .WithMany("SubmitedSurveyedAnswers")
+                        .HasForeignKey("QuestionnaireDetailId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AppUser");
-                });
+                    b.HasOne("Project.Data.Entities.SubmitedSurveyed", "SubmitedSurveyed")
+                        .WithMany("SubmitedSurveyedAnswer")
+                        .HasForeignKey("SubmitedSurveyedId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-            modelBuilder.Entity("Project.Data.Entities.SurveyDetail", b =>
-                {
-                    b.HasOne("Project.Data.Entities.Survey", "Survey")
-                        .WithMany("SurveyDetails")
-                        .HasForeignKey("SurveyId", "SurveyUserCreate");
+                    b.Navigation("QuestionnaireDetail");
 
-                    b.Navigation("Survey");
+                    b.Navigation("SubmitedSurveyed");
                 });
 
             modelBuilder.Entity("Project.Data.Entities.Surveyed", b =>
                 {
-                    b.HasOne("Project.Data.Entities.AppUser", "AppUser")
-                        .WithMany("Surveyeds")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Project.Data.Entities.Survey", "Survey")
                         .WithMany("Surveyeds")
-                        .HasForeignKey("SurveyId", "SurveyUserCreate");
-
-                    b.Navigation("AppUser");
+                        .HasForeignKey("SurveyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Survey");
                 });
@@ -958,30 +1216,15 @@ namespace Project.Data.Migrations
                     b.Navigation("AppUser");
                 });
 
-            modelBuilder.Entity("Project.Data.Entities.Task", b =>
-                {
-                    b.HasOne("Project.Data.Entities.AppUser", "AppUser")
-                        .WithMany("Tasks")
-                        .HasForeignKey("UserAskTaskId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppUser");
-                });
-
             modelBuilder.Entity("Project.Data.Entities.TaskDetail", b =>
                 {
-                    b.HasOne("Project.Data.Entities.AppUser", "AppUser")
+                    b.HasOne("Project.Data.Entities.Task", "Task")
                         .WithMany("TaskDetails")
-                        .HasForeignKey("UserComment")
+                        .HasForeignKey("IdTask")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Project.Data.Entities.Task", null)
-                        .WithMany("TaskDetails")
-                        .HasForeignKey("TaskId", "TaskUserAskTaskId");
-
-                    b.Navigation("AppUser");
+                    b.Navigation("Task");
                 });
 
             modelBuilder.Entity("Project.Data.Entities.UserImage", b =>
@@ -995,53 +1238,15 @@ namespace Project.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Project.Data.Entities.AppUserRole", b =>
-                {
-                    b.HasOne("Project.Data.Entities.AppRole", "Role")
-                        .WithMany("AppUserRoles")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Project.Data.Entities.AppUser", "User")
-                        .WithMany("AppUserRoles")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Project.Data.Entities.AppRole", b =>
-                {
-                    b.Navigation("AppUserRoles");
-                });
-
             modelBuilder.Entity("Project.Data.Entities.AppUser", b =>
                 {
-                    b.Navigation("AppUserRoles");
-
                     b.Navigation("AreaUser");
 
                     b.Navigation("Notifications");
 
-                    b.Navigation("Plans");
-
-                    b.Navigation("Posts");
-
                     b.Navigation("Reports");
 
-                    b.Navigation("Surveyeds");
-
-                    b.Navigation("Surveyes");
-
                     b.Navigation("SystemActivities");
-
-                    b.Navigation("TaskDetails");
-
-                    b.Navigation("Tasks");
 
                     b.Navigation("UserImages");
                 });
@@ -1060,16 +1265,38 @@ namespace Project.Data.Migrations
                     b.Navigation("Plans");
                 });
 
+            modelBuilder.Entity("Project.Data.Entities.Plan", b =>
+                {
+                    b.Navigation("PlanDetails");
+
+                    b.Navigation("PlanTasks");
+                });
+
+            modelBuilder.Entity("Project.Data.Entities.Post", b =>
+                {
+                    b.Navigation("PostImages");
+                });
+
+            modelBuilder.Entity("Project.Data.Entities.QuestionnaireDetail", b =>
+                {
+                    b.Navigation("SubmitedSurveyedAnswers");
+                });
+
+            modelBuilder.Entity("Project.Data.Entities.SubmitedSurveyed", b =>
+                {
+                    b.Navigation("SubmitedSurveyedAnswer");
+                });
+
             modelBuilder.Entity("Project.Data.Entities.Survey", b =>
                 {
-                    b.Navigation("SurveyDetails");
-
                     b.Navigation("Surveyeds");
                 });
 
             modelBuilder.Entity("Project.Data.Entities.Task", b =>
                 {
                     b.Navigation("MediaTasks");
+
+                    b.Navigation("PlanTasks");
 
                     b.Navigation("TaskDetails");
                 });

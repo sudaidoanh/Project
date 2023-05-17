@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Project.Data.Enums
 {
-    public enum Status
-    {
-        InActive,
-        Active,
+    public enum QuestionnaireStatus
+    { 
+        Available,
+        Disable,
     }
 }

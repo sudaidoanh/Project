@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Project.Data.Enums
 {
-    public enum Status
+    public enum PlanStatus
     {
-        InActive,
-        Active,
+        Visited,
+        Notvisited
     }
 }

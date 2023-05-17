@@ -14,13 +14,12 @@ namespace Project.Data.Configurations
         public void Configure(EntityTypeBuilder<Post> builder)
         {
             builder.ToTable("Posts");
-            builder.HasKey(x => new { x.Id, x.UserId});
+            builder.HasKey(x => x.Id);
             builder.Property(x => x.Title).IsRequired().HasMaxLength(60);
             builder.Property(x => x.Description).IsRequired().HasMaxLength(200);
-            builder.Property(x => x.Header).IsRequired().HasMaxLength(60);
+            builder.Property(x => x.Hypertext).IsRequired().HasMaxLength(60);
             builder.Property(x => x.Content).IsRequired().HasMaxLength(200);
-            builder.Property(x => x.Display).IsRequired();
-            builder.HasOne(x => x.AppUser).WithMany(c => c.Posts).HasForeignKey(c => c.UserId);
+            builder.Property(x => x.Status).IsRequired();
         }
     }
 }

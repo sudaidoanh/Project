@@ -21,18 +21,25 @@ namespace Project.Application.Catalog.Plan
 
         public async Task<bool> CreateVisitPlan(PlanViewModel request)
         {
-            var plan = new Project.Data.Entities.Plan() 
+            foreach(var x in request.Invited)
             {
-                Calendar = request.Calendar,
-                CreatedDate = DateTime.Now,
-                Purpose = request.Purpose,
-                TypeDate = request.TypeDate,
-                UserId = request.UserId,
-                DistributorId = request.DistributorId,
-                Invited = request.Invited,
-            };
+                var plan = new Project.Data.Entities.Plan()
+                {
+                    Calendar = request.Calendar,
+                    CreatedDate = DateTime.Now,
+                    Purpose = request.Purpose,
+                    TypeDate = request.TypeDate,
+                    UserId = request.UserId,
+                    DistributorId = request.DistributorId,
+                    PlanDetails = new List<PlanDetail>(){ new PlanDetail()
+                    {
+                        Invited = x,
+                        Status = RequestStatus.Unanswered,
+                    } },
+                };
 
-            await _context.Plans.AddAsync(plan);
+                await _context.Plans.AddAsync(plan);
+            }
             return await _context.SaveChangesAsync() > 0;
         }
 
@@ -63,8 +70,9 @@ namespace Project.Application.Catalog.Plan
 
         public async Task<List<GetAskVisitRequest>> GetRequestPlan(Guid guid)
         {
-            var query = from p in _context.Plans.Where(p => p.Invited.Equals(guid))
-                        select new { p };
+            var query = from pd in _context.PlanDetails.Where(p => p.Invited.Equals(guid))
+                        from p in _context.Plans.Where( p => p.Id == pd.PlanId).DefaultIfEmpty()
+                        select new { pd, p };
             return await query.Select(a => new GetAskVisitRequest()
             {
                 Id = a.p.Id,
@@ -86,19 +94,18 @@ namespace Project.Application.Catalog.Plan
                 DistributorId = a.p.DistributorId,
                 Purpose = a.p.Purpose,
                 TypeDate = a.p.TypeDate,
-                Invited = a.p.Invited
             }).ToListAsync();
         }
 
-        public async Task<bool> ReplyVisitPlan( int planId, Status reply)
+        public async Task<bool> ReplyVisitPlan(Guid InvitedUser, int planId, RequestStatus reply)
         {
-            var plan = await _context.Plans.FindAsync(planId);
+            var plan = await _context.PlanDetails.FirstOrDefaultAsync(x => x.PlanId == planId && x.Invited.Equals(InvitedUser));
             if(plan == null)
             {
                 return false;
             }
             plan.Status = reply;
-            _context.Plans.Update(plan);
+            _context.PlanDetails.Update(plan);
             return await _context.SaveChangesAsync() > 0;
 
         }
