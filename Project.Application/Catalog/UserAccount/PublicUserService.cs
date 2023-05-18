@@ -90,7 +90,6 @@ namespace Project.Application.Catalog.UserAccount
             if (userRole == null) throw new CustomException($"Can not find Role of account {account.FullName}");
             var role = await _context.AppRoles.FindAsync(new Guid($"{userRole.RoleId}"));
             var image = await _context.UserImages.FirstOrDefaultAsync(x => x.UserId == guid);
-
             return new UserViewModel()
             {
                 Id = guid,
@@ -100,7 +99,7 @@ namespace Project.Application.Catalog.UserAccount
                 Role = role.Name,
                 Address = account.Address,
                 Phone = account.PhoneNumber,
-                imagePath = image.ImagePath,
+                imagePath = image == null ? "null" : image.ImagePath,
             }
             ;
         }

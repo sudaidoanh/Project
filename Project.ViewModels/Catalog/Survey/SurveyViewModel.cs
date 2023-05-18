@@ -4,18 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Project.Data.Entities
+namespace Project.ViewModels.Catalog.Survey
 {
-    public class Survey
+    public class SurveyViewModel
     {
         public int Id { get; set; }
         public String Title { get; set; }
         public Guid UserCreate { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime FromDate { get; set; }
-        public DateTime ToDate { get; set; }
-        public List<Surveyed> Surveyeds { get; set; }
+        public String FromDate { get; set; }
+        public String ToDate { get; set; }
         public int QuestionnaireId { get; set; }
+        public int Total { get; set; }
+        public int TotalCompleted { get; set; }
 
     }
 }

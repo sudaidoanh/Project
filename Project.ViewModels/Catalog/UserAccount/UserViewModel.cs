@@ -19,7 +19,6 @@ namespace Project.ViewModels.Catalog.UserAccount
         public string Role { get; set; }
         public string Area { get; set; }
         public Status Status { get; set; }
-        public Data.Entities.Task Task { get; set; }
         public string imagePath{ get; set; }
     }
 }

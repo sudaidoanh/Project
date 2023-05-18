@@ -17,7 +17,7 @@ namespace Project.Data.Configurations
             builder.HasKey(x => x.Id);
             builder.Property(x => x.QuestionnaireDetailId).IsRequired();
             builder.Property(x => x.SurveyedId).IsRequired();
-            builder.Property(x => x.PerformerId).IsRequired();
+            builder.Property(x => x.Email).IsRequired();
             builder.Property(x => x.Answer).IsRequired();
 
         }

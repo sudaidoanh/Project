@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <Folder Include="Catalog\Notification\" />
-    <Folder Include="Catalog\Survey\" />
     <Folder Include="Catalog\Task\" />
     <Folder Include="Catalog\Post\" />
   </ItemGroup>

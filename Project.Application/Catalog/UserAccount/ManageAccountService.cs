@@ -86,6 +86,8 @@ namespace Project.Application.Catalog.UserAccount
                 FullName = p.u.FullName,
                 Email = p.u.Email,
                 Status = p.u.Status,
+                Address = p.u.Address,
+                Phone = p.u.PhoneNumber,
                 Role = p.r.Name,
                 Area = p.a.Name,
             }).ToListAsync();

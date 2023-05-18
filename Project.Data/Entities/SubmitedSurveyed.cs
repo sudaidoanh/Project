@@ -9,7 +9,7 @@ namespace Project.Data.Entities
     public class SubmitedSurveyed
     {
         public int Id { get; set; }
-        public Guid PerformerId { get; set; }
+        public string Email { get; set; }
         public int SurveyedId { get; set; }
         public int QuestionnaireDetailId { get; set; }
         public string Answer { get; set; }

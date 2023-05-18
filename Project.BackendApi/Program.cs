@@ -6,12 +6,15 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Project.Application.Catalog.Area;
 using Project.Application.Catalog.Plan;
+using Project.Application.Catalog.Survey;
 using Project.Application.Catalog.UserAccount;
 using Project.Application.Common;
 using Project.Application.System.Users;
 using Project.Data.EF;
 using Project.Data.Entities;
 using Project.Uttilities.Constants;
+using System.Net.Mail;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +30,7 @@ builder.Services.AddTransient<IManageAccountService , ManageAccountService>();
 builder.Services.AddTransient<IPublicUserService , PublicUserService>();
 builder.Services.AddTransient<IAreaManageService , AreaManageService>();
 builder.Services.AddTransient<IPlanService , PlanService>();
+builder.Services.AddTransient<ISurveyService , SurveyService>();
 builder.Services.AddTransient<UserManager<AppUser> , UserManager<AppUser>>();
 builder.Services.AddTransient<SignInManager<AppUser> , SignInManager<AppUser>>();
 builder.Services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();

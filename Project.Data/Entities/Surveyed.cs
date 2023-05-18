@@ -11,7 +11,8 @@ namespace Project.Data.Entities
     {
         public int Id { get; set; }
         public int SurveyId { get; set; }
-        public Guid PerformerId { get; set; }
+        public string PerformerName { get; set; }
+        public string Email { get; set; }
         public Status Status { get; set; }
         public Survey Survey { get; set; }
 

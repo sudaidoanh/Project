@@ -25,7 +25,7 @@ namespace Project.BackendApi.Controllers
             return Ok(user);
         }
 
-        [HttpPut("Profile")]
+        [HttpPatch("Profile")]
         public async Task<IActionResult> Update([FromForm]EditProfileRequest request)
         {
             var user = await _publicUserService.Update(request);
@@ -33,7 +33,7 @@ namespace Project.BackendApi.Controllers
             return Ok(user);
         }
 
-        [HttpPut("Password")]
+        [HttpPatch("Password")]
         public async Task<IActionResult> UpdatePassword([FromForm] EditPasswordRequest request)
         {
             var user = await _publicUserService.UpdatePassword(request);
