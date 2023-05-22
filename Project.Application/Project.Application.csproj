@@ -13,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Catalog\Notification\" />
     <Folder Include="Catalog\Post\" />
   </ItemGroup>
 

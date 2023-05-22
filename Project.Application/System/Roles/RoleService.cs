@@ -1,16 +1,17 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Project.Data.Entities;
+using Project.ViewModels.System.Roles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Project.Application.System.Roles.IRolesService;
+using static Project.Application.System.Roles.IRoleService;
 
 namespace Project.Application.System.Roles
 {
-    public class RoleService : IRolesService
+    public class RoleService : IRoleService
     {
         private readonly RoleManager<AppRole> _roleManager;
         public RoleService(RoleManager<AppRole> roleManager)
@@ -18,7 +19,7 @@ namespace Project.Application.System.Roles
             _roleManager = roleManager;
         }
 
-        public async Task<List<IRolesService.RoleVm>> GetAll()
+        public async Task<List<RoleVm>> GetAll()
         {
             var roles = await _roleManager.Roles
                 .Select(x => new RoleVm()
@@ -30,5 +31,6 @@ namespace Project.Application.System.Roles
 
             return roles;
         }
+
     }
 }

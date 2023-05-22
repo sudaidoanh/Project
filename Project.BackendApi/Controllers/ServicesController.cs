@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Project.Application.Catalog.Notification;
 using Project.Application.Catalog.UserAccount;
 using Project.Application.System.Users;
 using Project.ViewModels.Catalog.UserAccount;
@@ -13,9 +14,11 @@ namespace Project.BackendApi.Controllers
     public class ServicesController : ControllerBase
     {
         private readonly IPublicUserService _publicUserService;
-        public ServicesController(IPublicUserService publicUserService)
+        private readonly INotificationService _notificationService;
+        public ServicesController(IPublicUserService publicUserService, INotificationService notificationService)
         {
             _publicUserService = publicUserService;
+            _notificationService = notificationService;
         }
         [HttpGet]
         public async Task<IActionResult> Get(Guid guid)

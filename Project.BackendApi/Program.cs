@@ -15,6 +15,9 @@ using Project.Data.Entities;
 using Project.Uttilities.Constants;
 using System.Net.Mail;
 using System.Net;
+using Project.Application.System.Roles;
+using Project.Application.Catalog.Notification;
+using Project.Application.Catalog.Task;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +34,9 @@ builder.Services.AddTransient<IPublicUserService , PublicUserService>();
 builder.Services.AddTransient<IAreaManageService , AreaManageService>();
 builder.Services.AddTransient<IPlanService , PlanService>();
 builder.Services.AddTransient<ISurveyService , SurveyService>();
+builder.Services.AddTransient<INotificationService , NotificationService>();
+builder.Services.AddTransient<ITaskService , TaskService>();
+builder.Services.AddTransient<IRoleService , RoleService>();
 builder.Services.AddTransient<UserManager<AppUser> , UserManager<AppUser>>();
 builder.Services.AddTransient<SignInManager<AppUser> , SignInManager<AppUser>>();
 builder.Services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();

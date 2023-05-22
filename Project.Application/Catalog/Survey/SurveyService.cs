@@ -81,7 +81,7 @@ namespace Project.Application.Catalog.Survey
                     QuestionnaireId = questionnaireId,
                     Question = x.Question,
                     Answers = answers,
-                    TypeAnswer = AnswerType.Radio.Equals(x.AnswerType) ? "Radio" : "Checkbox",
+                    TypeAnswer = x.AnswerType == AnswerType.Radio ? "Radio" : "Checkbox",
                 };
                 await _context.QuestionnaireDetails.AddAsync(questionnaireDetail);
             }

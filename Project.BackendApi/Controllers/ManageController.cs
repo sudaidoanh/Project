@@ -172,5 +172,83 @@ namespace Project.BackendApi.Controllers
             }
             return Ok();
         }
+
+        [HttpGet("Plan/Page")]
+        public async Task<IActionResult> GetAllPlan([FromQuery] GetUserPagingRequest request)
+        {
+            var data = await _manageAccountService.GetAllAccount(request);
+            if (data == null) return BadRequest("Can not find user");
+            return Ok(data);
+        }
+
+        [HttpGet("Plan/{id}")]
+        public async Task<IActionResult> GetByPlanId(Guid guid)
+        {
+            var user = await _manageAccountService.GetById(guid);
+            if (user == null) return BadRequest("Can not find user");
+            return Ok(user);
+        }
+
+        [HttpPatch("Plan")]
+        public async Task<IActionResult> ConfirmPlanRequest([FromForm] UserCreateRequest request)
+        {
+            var userId = await _manageAccountService.Create(request);
+            if (userId != Guid.Empty)
+            {
+                return Ok(userId);
+
+            }
+            return BadRequest();
+        }
+
+        [HttpDelete("Plan/{id}")]
+        public async Task<IActionResult> DeletePlan(Guid guid)
+        {
+            var userId = await _manageAccountService.Delete(guid);
+            if (userId == 0)
+            {
+                return BadRequest();
+            }
+            return Ok();
+        }
+
+        [HttpGet("Survey/Page")]
+        public async Task<IActionResult> GetAllSurvey([FromQuery] GetUserPagingRequest request)
+        {
+            var data = await _manageAccountService.GetAllAccount(request);
+            if (data == null) return BadRequest("Can not find user");
+            return Ok(data);
+        }
+
+        [HttpGet("Survey/{id}")]
+        public async Task<IActionResult> GetBySurveyId(Guid guid)
+        {
+            var user = await _manageAccountService.GetById(guid);
+            if (user == null) return BadRequest("Can not find user");
+            return Ok(user);
+        }
+
+        [HttpPatch("Survey/{id}")]
+        public async Task<IActionResult> ConfirmSuvey([FromForm] UserCreateRequest request)
+        {
+            var userId = await _manageAccountService.Create(request);
+            if (userId != Guid.Empty)
+            {
+                return Ok(userId);
+
+            }
+            return BadRequest();
+        }
+
+        [HttpDelete("Survey/{id}")]
+        public async Task<IActionResult> DeleteSurvey(Guid guid)
+        {
+            var userId = await _manageAccountService.Delete(guid);
+            if (userId == 0)
+            {
+                return BadRequest();
+            }
+            return Ok();
+        }
     }
 }
