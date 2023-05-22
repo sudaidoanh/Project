@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project.Data.EF;
 
@@ -11,9 +12,11 @@ using Project.Data.EF;
 namespace Project.Data.Migrations
 {
     [DbContext(typeof(ProjectDbContext))]
-    partial class ProjectDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230522071102_rmNotifTable")]
+    partial class rmNotifTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -173,7 +176,7 @@ namespace Project.Data.Migrations
                         {
                             Id = new Guid("6755b85d-9886-4e98-89df-fe320e6febd7"),
                             Action = "Adminstrator",
-                            ConcurrencyStamp = "ddcbabe7-2897-439d-b30a-55e1bda70ff4",
+                            ConcurrencyStamp = "77984ab2-b216-4865-a4e4-91339de3d70f",
                             Description = "Adminstrator Role",
                             Manage = 0,
                             Name = "Adminstrator",
@@ -183,7 +186,7 @@ namespace Project.Data.Migrations
                         {
                             Id = new Guid("bed15c1f-b73a-4301-97b8-65fb4f54d1a0"),
                             Action = "Owner",
-                            ConcurrencyStamp = "54dd4b5e-0e69-4cd4-8fc3-c941fb8ef778",
+                            ConcurrencyStamp = "a950fb25-b0c4-45d9-ae0f-36d2fa9d5132",
                             Description = "Manage all the system setting, include the user permission.",
                             Manage = 0,
                             Name = "Owner",
@@ -193,7 +196,7 @@ namespace Project.Data.Migrations
                         {
                             Id = new Guid("240e615a-2fa4-468a-8728-c3c9c7d3db58"),
                             Action = "Guest",
-                            ConcurrencyStamp = "fdfaa2f3-199b-4745-ac25-0d73948c168c",
+                            ConcurrencyStamp = "ab4d3665-54f0-443a-9740-28ea4cee7215",
                             Description = "Guest Role",
                             Manage = 0,
                             Name = "Guest",
@@ -273,14 +276,14 @@ namespace Project.Data.Migrations
                             Id = new Guid("d49cad19-8d64-44fe-88ad-3e98fc3376ec"),
                             AccessFailedCount = 10,
                             Address = "Ho Chi Minh City",
-                            ConcurrencyStamp = "1dd5815f-57fa-47fd-ada5-c3c5abf06d1b",
+                            ConcurrencyStamp = "7cff05f9-e0a9-4784-ab6c-86895db5a677",
                             Email = "admin@domain.com",
                             EmailConfirmed = true,
                             FullName = "Adminstrator",
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@domain.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEE1lDPcxibTIuVjMvG5YJ++gMxZQ5vyDxz8wDLIWXIpM4H85fyVgr5MLxvokTf5vJQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELT90jE1zJF1JcBPSiKzYrcw7SCkjod3HOwc+4A25MbFKgFskorEExKFK8RB5bP3iw==",
                             PhoneNumber = "1234567890",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "",
@@ -293,14 +296,14 @@ namespace Project.Data.Migrations
                             Id = new Guid("deabd869-b037-48f5-9201-052f23f01ca8"),
                             AccessFailedCount = 10,
                             Address = "Ho Chi Minh City",
-                            ConcurrencyStamp = "a166184f-4e9c-4de2-aaa8-a1267b27679d",
+                            ConcurrencyStamp = "17b41ca2-9967-402b-9234-7bba70411a0b",
                             Email = "owner@domain.com",
                             EmailConfirmed = true,
                             FullName = "Owner",
                             LockoutEnabled = false,
                             NormalizedEmail = "owner@domain.com",
                             NormalizedUserName = "owner",
-                            PasswordHash = "AQAAAAEAACcQAAAAELwAwk+Cbx8egYcuFNq7ht+ZavhO1PFe4LZXgEvTifyvmU6phuJt/V6iVZg/3EeQ9g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGrCSlTMbS3kpu8tWL/5DL7+SwXReiR3QW3FiZ1GXrHzIBL24cAT2DB3wWInrC7xDg==",
                             PhoneNumber = "0122222222",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "",
@@ -313,14 +316,14 @@ namespace Project.Data.Migrations
                             Id = new Guid("0d80c014-4959-4d4d-b699-8c10192afc15"),
                             AccessFailedCount = 10,
                             Address = "Dong Ha Quang Tri",
-                            ConcurrencyStamp = "d4b298ea-64b0-4acb-9e6d-b23514f9d417",
+                            ConcurrencyStamp = "57074bb1-826d-4210-9dfc-6ef75d47d649",
                             Email = "sudaidoanh@gmail.com",
                             EmailConfirmed = true,
                             FullName = "Su Dai Doanh",
                             LockoutEnabled = false,
                             NormalizedEmail = "sudaidoanh@gmail.com",
                             NormalizedUserName = "doanh",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHKrblUvUMQJeNE80EwN1tJEyEcb3ZeYE6IHzXBISHpA8eNQjqgDxit2GlLh/Dgp5w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMY8C32ZlSX/dP7TaSwxh/OmR7ZjYtU6i3LFkbdupHcoDh/kcXPIFkxGiIEgRcfYxg==",
                             PhoneNumber = "0967145696",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "",
@@ -510,42 +513,6 @@ namespace Project.Data.Migrations
                     b.HasIndex("TaskId");
 
                     b.ToTable("MediaTasks", (string)null);
-                });
-
-            modelBuilder.Entity("Project.Data.Entities.Notification", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("nvarchar(60)");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Header")
-                        .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("nvarchar(60)");
-
-                    b.Property<Guid>("Receivers")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("SenderId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Status")
-                        .HasMaxLength(20)
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Notifications", (string)null);
                 });
 
             modelBuilder.Entity("Project.Data.Entities.Plan", b =>

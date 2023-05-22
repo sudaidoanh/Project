@@ -2,21 +2,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Project.Data.Entities
+namespace Project.ViewModels.Catalog.Noftication
 {
-    public class Notification
+    public class NotificationViewModel
     {
         public int Id { get; set; }
+        public string Title { get; set; }
+        public string Content { get; set; }
         public Guid SenderId { get; set; }
-        public Guid Receivers { get; set; }
-        public String Header { get; set; }
-        public String Content { get; set; }
-        public DateTime Date { get; set; }
+        public string SenderName { get; set; }
+        public Guid Receiver { get; set; }
         public Status Status { get; set; }
-
     }
 }

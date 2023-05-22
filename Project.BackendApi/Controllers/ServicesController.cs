@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Project.Application.Catalog.Notification;
 using Project.Application.Catalog.UserAccount;
 using Project.Application.System.Users;
+using Project.ViewModels.Catalog.Noftication;
 using Project.ViewModels.Catalog.UserAccount;
 
 namespace Project.BackendApi.Controllers
@@ -42,6 +43,22 @@ namespace Project.BackendApi.Controllers
             var user = await _publicUserService.UpdatePassword(request);
             if (user == false) return BadRequest("Can not find user");
             return Ok(user);
+        }
+
+        [HttpGet("Notifications")]
+        public async Task<IActionResult> GetNotificationPage(Guid user, [FromQuery] GetNotificationPagingRequest request)
+        {
+            var notif = await _notificationService.GetNotificationPaging(user, request);
+            if(notif == null) return NotFound();
+            return Ok(notif);
+        }
+
+        [HttpPost("Notifications")]
+        public async Task<IActionResult> AddNewNotification([FromBody] AddNotificationRequest request)
+        {
+            var notif = await _notificationService.CreateNewNotification(request);
+            if (notif == false) return BadRequest();
+            return Ok(notif);
         }
     }
 }
