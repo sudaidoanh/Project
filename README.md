@@ -53,6 +53,7 @@ load model view based on dependent user
 - Create Restful API for task 's function according to requiment
 - Create APIs role and assign role for users system
 - Integrated email sending via smtp client (Not running)
-## Unfinished: 
+## Finished late
 - Notification API
+## Unfinished: 
 - Fluent validation
