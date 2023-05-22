@@ -44,7 +44,15 @@ load model view based on dependent user
 - Create role functions to assign roles
 - Create visit planning functions: add new plan
 ## 11/5 - 15/5: 
-- Create Resful API for plan's require function 
+- Create Resful API for plan's function according to requirement
 - Configure database table Surveys reasonable
-- Create functions for Surveys, TaskDetails
+- Create functions for Surveys, Details
 - Create API controller for Surveys
+## 15/5 - 18/5: 
+- Create Restful API for survey's function according to requirement
+- Create Restful API for task 's function according to requiment
+- Create APIs role and assign role for users system
+- Integrated email sending via smtp client (Not running)
+## Unfinished: 
+- Notification API
+- Fluent validation
