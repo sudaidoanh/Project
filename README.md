@@ -1,7 +1,10 @@
 # Using .NET technology to develop the project
 ## Technologies
-- ASP.NET CORE 6.0
-- Entity Framwork Core 7.0.5
+C#
+ASP.NET CORE 6.0
+.NET MVC
+Entity Framwork Core 7.0.5
+MySQL Server database
 ## Install Packages
 - Microsoft.EntityFrameworkCore.SqlServer
 - Microsoft.EntityFrameworkCore.Design
